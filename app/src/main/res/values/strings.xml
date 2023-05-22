@@ -2,4 +2,5 @@
     <string name="app_name">EmergenZ</string>
     <string name="icon_call">Panggil</string>
     <string name="icon_telp_card">Ikon Darurat</string>
+    <string name="icon_bar">Icon bar</string>
 </resources>
