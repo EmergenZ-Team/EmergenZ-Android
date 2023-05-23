@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bottom_sheet_bg">
+    tools:context=".ui.fragment.CallPageFragment">
 
     <ImageView
         android:layout_width="70dp"
@@ -18,34 +19,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-
         <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout_call"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_tab_fire" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_tab_hospital" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_tab_police" />
-        </com.google.android.material.tabs.TabLayout>
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
-    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager2_call"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="200dp" />
