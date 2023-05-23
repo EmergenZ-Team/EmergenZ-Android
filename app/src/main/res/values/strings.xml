@@ -3,4 +3,5 @@
     <string name="icon_call">Panggil</string>
     <string name="icon_telp_card">Ikon Darurat</string>
     <string name="icon_bar">Icon bar</string>
+    <string name="test_button_sheet">Test Button Sheet</string>
 </resources>
