@@ -1,10 +1,9 @@
 package com.bangkit.emergenz
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import com.bangkit.emergenz.databinding.ActivityMainBinding
-import com.bangkit.emergenz.ui.fragment.CallPageFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,25 +15,18 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setBottomNavigation()
-        testButton()
     }
 
     private fun setBottomNavigation(){
         binding.bottomNav.background = null
         binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.action_home -> Toast.makeText(this, "To Home", Toast.LENGTH_SHORT).show()
-                R.id.action_contact -> Toast.makeText(this, "To Contact", Toast.LENGTH_SHORT).show()
-                R.id.action_article -> Toast.makeText(this, "To Article", Toast.LENGTH_SHORT).show()
+                R.id.action_home -> findNavController(R.id.nav_host_fragment_content_main).popBackStack(R.id.mainFragment, false)
+                R.id.action_contact -> findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.contactFragment)
+                R.id.action_article -> findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.articleFragment)
             }
             true
         }
     }
 
-    private fun testButton(){
-        binding.button.setOnClickListener {
-            val bottomSheetFragment = CallPageFragment()
-            bottomSheetFragment.show(supportFragmentManager, "CallPageFragment")
-        }
-    }
 }
