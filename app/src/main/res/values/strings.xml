@@ -15,4 +15,26 @@
     <string name="btn_yes">Ya</string>
     <string name="btn_no">Tidak</string>
     <string name="test_popup">Test Popup</string>
+
+<!--    Login & Register-->
+    <string name="pw_warning">Password must at least contains 8 characters!</string>
+    <string name="pw_hint">Enter your password</string>
+    <string name="email_hint">writeemail@place.com</string>
+    <string name="email_warning">Email is not valid!</string>
+    <string name="name_hint">Enter your name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register_now_text">Not a member? Register here!</string>
+    <string name="login_now_text">Already a member? Login here!</string>
+    <string name="logo_description">StoryApp\'s Logo</string>
+    <string name="username">Username</string>
+    <string name="register">Register</string>
+    <string name="username_hint">Enter your username</string>
+    <string name="email_empty">Email is empty!</string>
+    <string name="pw_empty">Password is empty!</string>
+    <string name="username_empty">Username is empty!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
