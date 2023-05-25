@@ -33,7 +33,7 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.tvLoginNow.setOnClickListener{
-            view.findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+            view.findNavController().navigate(R.id.action_registerFragment2_to_loginFragment2)
         }
 
         binding.btnRegister.setOnClickListener {
@@ -65,7 +65,7 @@ class RegisterFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                else -> view?.findNavController()?.navigate(R.id.action_registerFragment_to_loginFragment)
+                else -> view?.findNavController()?.navigate(R.id.action_registerFragment2_to_loginFragment2)
             }
         }
     }
