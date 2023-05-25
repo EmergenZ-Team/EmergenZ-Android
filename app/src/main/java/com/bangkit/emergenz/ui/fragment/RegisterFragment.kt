@@ -31,6 +31,47 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.tvLoginNow.setOnClickListener{
+            view.findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
+
+        binding.btnRegister.setOnClickListener {
+            val email = binding.edRegisterEmail.text.toString()
+            val password = binding.edRegisterPassword.text.toString()
+            val username = binding.edRegisterUsername.text.toString()
+            when {
+                username.isEmpty() -> Toast.makeText(
+                    context,
+                    R.string.username_empty,
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                email.isEmpty() -> Toast.makeText(context, R.string.email_empty, Toast.LENGTH_SHORT)
+                    .show()
+
+                !isEmail(email) -> Toast.makeText(
+                    context,
+                    R.string.email_warning,
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                password.isEmpty() -> Toast.makeText(context, R.string.pw_empty, Toast.LENGTH_SHORT)
+                    .show()
+
+                password.length < 8 -> Toast.makeText(
+                    context,
+                    R.string.pw_warning,
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                else -> view?.findNavController()?.navigate(R.id.action_registerFragment_to_loginFragment)
+            }
+        }
+    }
+
+    private fun isEmail(email: String) : Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     override fun onDestroyView() {
