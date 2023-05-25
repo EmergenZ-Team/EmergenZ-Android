@@ -36,7 +36,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.tvRegisterNow.setOnClickListener{
-            view.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+            view.findNavController().navigate(R.id.action_loginFragment2_to_registerFragment2)
         }
         binding.btnLogin.setOnClickListener{
             val email = binding.edLoginEmail.text.toString()
