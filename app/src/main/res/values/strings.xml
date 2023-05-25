@@ -16,7 +16,7 @@
     <string name="btn_no">Tidak</string>
     <string name="test_popup">Test Popup</string>
 
-<!--    Login & Register-->
+    <!--    Login & Register-->
     <string name="pw_warning">Password must at least contains 8 characters!</string>
     <string name="pw_hint">Enter your password</string>
     <string name="email_hint">writeemail@place.com</string>

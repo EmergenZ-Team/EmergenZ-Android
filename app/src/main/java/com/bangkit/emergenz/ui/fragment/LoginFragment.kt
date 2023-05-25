@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.bangkit.emergenz.R
 import com.bangkit.emergenz.databinding.FragmentLoginBinding
+import com.bangkit.emergenz.ui.activity.MainActivity
 
 //private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "token")
 class LoginFragment : Fragment() {
@@ -33,7 +34,35 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.tvRegisterNow.setOnClickListener{
+            view.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+        binding.btnLogin.setOnClickListener{
+            val email = binding.edLoginEmail.text.toString()
+            val password = binding.edLoginPassword.text.toString()
+            when{
+                email.isEmpty() -> Toast.makeText(context, R.string.email_empty, Toast.LENGTH_SHORT).show()
+                !isEmail(email) -> Toast.makeText(context, R.string.email_warning, Toast.LENGTH_SHORT).show()
+                password.isEmpty() -> Toast.makeText(context, R.string.pw_empty, Toast.LENGTH_SHORT).show()
+                password.length < 8 -> Toast.makeText(context, R.string.pw_warning, Toast.LENGTH_SHORT).show()
+                else -> isMovingTime(true)
+            }
+        }
     }
+
+    private fun isEmail(email: String) : Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    private fun isMovingTime(isFinished: Boolean?) {
+        if(isFinished == true){
+            val intent = Intent(requireActivity(), MainActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
