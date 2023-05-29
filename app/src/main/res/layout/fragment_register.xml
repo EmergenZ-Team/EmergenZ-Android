@@ -17,7 +17,7 @@
             android:layout_height="200dp"
             android:scaleType="fitCenter"
             android:layout_marginTop="32dp"
-            tools:src="@tools:sample/backgrounds/scenic"
+            tools:src="@drawable/emergenz_box"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

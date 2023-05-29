@@ -41,4 +41,6 @@
     <string name="camera_fail">Failed to get the camera</string>
     <string name="btn_take_a_photo">Take a Photo</string>
     <string name="capture_image">Capture the Image</string>
+    <string name="iv_setting">Setting</string>
+    <string name="iv_profile">Profile</string>
 </resources>
