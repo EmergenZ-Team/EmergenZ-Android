@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ktp_navigation"
+    app:startDestination="@id/profileFragment">
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.bangkit.emergenz.ui.fragment.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_registerKtpFragment"
+            app:destination="@id/registerKtpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerKtpFragment"
+        android:name="com.bangkit.emergenz.ui.fragment.RegisterKtpFragment"
+        android:label="fragment_register_ktp"
+        tools:layout="@layout/fragment_register_ktp" >
+        <action
+            android:id="@+id/action_registerKtpFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_registerKtpFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.bangkit.emergenz.ui.fragment.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" />
+</navigation>

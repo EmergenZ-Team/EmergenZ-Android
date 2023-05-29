@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.bangkit.emergenz.R
 import com.bangkit.emergenz.databinding.FragmentProfileBinding
 
@@ -25,5 +26,9 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().actionBar?.title = "Profile"
         requireActivity().actionBar?.setDisplayHomeAsUpEnabled(true)
+
+        binding.btnIdRegister.setOnClickListener{
+            view.findNavController().navigate(R.id.action_profileFragment_to_registerKtpFragment)
+        }
     }
 }
