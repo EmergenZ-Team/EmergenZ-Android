@@ -37,4 +37,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="takepic_fail">Failed to take a picture</string>
+    <string name="camera_fail">Failed to get the camera</string>
+    <string name="btn_take_a_photo">Take a Photo</string>
+    <string name="capture_image">Capture the Image</string>
 </resources>
