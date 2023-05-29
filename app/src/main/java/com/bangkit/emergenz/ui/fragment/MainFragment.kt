@@ -1,11 +1,13 @@
 package com.bangkit.emergenz.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bangkit.emergenz.databinding.FragmentMainBinding
+import com.bangkit.emergenz.ui.activity.ProfileActivity
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
@@ -28,6 +30,17 @@ class MainFragment : Fragment() {
         binding.button.setOnClickListener {
             val bottomSheetFragment = CallPageFragment()
             bottomSheetFragment.show(requireActivity().supportFragmentManager, "CallPageFragment")
+        }
+    }
+
+    private fun topNavMenu(){
+        binding.ivProfile.setOnClickListener{
+            val intent = Intent(requireActivity(), ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.ivSetting.setOnClickListener{
+            //What kind of menu should we add this??
         }
     }
 
