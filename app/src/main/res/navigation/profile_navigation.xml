@@ -20,15 +20,7 @@
         android:label="fragment_register_ktp"
         tools:layout="@layout/fragment_register_ktp" >
         <action
-            android:id="@+id/action_registerKtpFragment_to_cameraFragment"
-            app:destination="@id/cameraFragment" />
-        <action
             android:id="@+id/action_registerKtpFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/cameraFragment"
-        android:name="com.bangkit.emergenz.ui.fragment.CameraFragment"
-        android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera" />
 </navigation>

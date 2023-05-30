@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -13,16 +16,18 @@
         android:theme="@style/Theme.EmergenZ"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.CameraActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.ProfileActivity"
             android:exported="false"
-            android:theme="@style/Base.Theme.EmergenZ.Appbar"/>
+            android:theme="@style/Base.Theme.EmergenZ.Appbar" />
         <activity
             android:name=".ui.activity.AuthActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".ui.activity.MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
