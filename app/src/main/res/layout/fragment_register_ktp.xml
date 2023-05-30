@@ -17,10 +17,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ic_image_24" />
+            android:src="@drawable/ic_image_24"
+            android:contentDescription="Image Container for your ID" />
 
         <Button
             android:id="@+id/btn_camera"

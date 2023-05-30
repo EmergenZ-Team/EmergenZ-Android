@@ -13,8 +13,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.bangkit.emergenz.R
 import com.bangkit.emergenz.databinding.FragmentRegisterKtpBinding
+import com.bangkit.emergenz.ui.activity.CameraActivity
 import com.bangkit.emergenz.util.rotateFile
 import java.io.File
 
@@ -46,6 +49,24 @@ class RegisterKtpFragment : Fragment() {
         binding.btnConfirm.setOnClickListener { uploadImage() }
         }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (!allPermissionsGranted()) {
+                Toast.makeText(
+                    requireActivity(),
+                    getString(R.string.perm_lack),
+                    Toast.LENGTH_SHORT
+                ).show()
+                requireActivity().finish()
+            }
+        }
+    }
+
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(requireActivity().baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
@@ -55,7 +76,7 @@ class RegisterKtpFragment : Fragment() {
     }
 
     private fun startCameraX() {
-        val intent = Intent(requireContext(), CameraFragment::class.java)
+        val intent = Intent(requireActivity(), CameraActivity::class.java)
         launcherIntentCameraX.launch(intent)
     }
 
@@ -70,6 +91,11 @@ class RegisterKtpFragment : Fragment() {
             getFile = myFile
             binding.ivIdentityCard.setImageBitmap(BitmapFactory.decodeFile(file.path))
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     companion object {

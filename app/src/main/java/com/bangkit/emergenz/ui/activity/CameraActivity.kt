@@ -1,12 +1,9 @@
-package com.bangkit.emergenz.ui.fragment
+package com.bangkit.emergenz.ui.activity
 
 import android.content.Intent
 import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
@@ -17,29 +14,23 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.bangkit.emergenz.R
-import com.bangkit.emergenz.databinding.FragmentCameraBinding
+import com.bangkit.emergenz.databinding.ActivityCameraBinding
+import com.bangkit.emergenz.ui.fragment.RegisterKtpFragment
 import com.bangkit.emergenz.util.createFile
 
-class CameraFragment : Fragment() {
-    private var _binding: FragmentCameraBinding? = null
+class CameraActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityCameraBinding
     private var imageCapture: ImageCapture? = null
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-    private val binding get() = _binding!!
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityCameraBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCameraBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         binding.captureImage.setOnClickListener { takePhoto() }
     }
 
-    override fun onResume() {
+    public override fun onResume() {
         super.onResume()
         hideSystemUI()
         startCamera()
@@ -48,16 +39,16 @@ class CameraFragment : Fragment() {
     private fun takePhoto() {
         val imageCapture = imageCapture?: return
 
-        val photoFile = createFile(requireActivity().application)
+        val photoFile = createFile(application)
 
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
         imageCapture.takePicture(
             outputOptions,
-            ContextCompat.getMainExecutor(requireActivity()),
+            ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback{
                 override fun onError(exception: ImageCaptureException) {
                     Toast.makeText(
-                        requireActivity(),
+                        this@CameraActivity,
                         getString(R.string.takepic_fail),
                         Toast.LENGTH_SHORT
                     ).show()
@@ -70,8 +61,8 @@ class CameraFragment : Fragment() {
                         "isBackCamera",
                         cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA
                     )
-                    requireActivity().setResult(RegisterKtpFragment.CAMERA_X_RESULT, intent)
-                    requireActivity().finish()
+                    setResult(RegisterKtpFragment.CAMERA_X_RESULT, intent)
+                    finish()
                 }
             }
         )
@@ -79,7 +70,7 @@ class CameraFragment : Fragment() {
 
     private fun startCamera() {
 
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireActivity())
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
         cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
@@ -101,23 +92,24 @@ class CameraFragment : Fragment() {
                 )
             } catch (exc: Exception) {
                 Toast.makeText(
-                    requireActivity(),
+                    this@CameraActivity,
                     getString(R.string.camera_fail),
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        }, ContextCompat.getMainExecutor(requireActivity()))
+        }, ContextCompat.getMainExecutor(this))
     }
 
     private fun hideSystemUI() {
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            requireActivity().window.insetsController?.hide(WindowInsets.Type.statusBars())
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
         } else {
-            requireActivity().window.setFlags(
+            window.setFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
+        supportActionBar?.hide()
     }
 }
