@@ -1,4 +1,4 @@
-package com.udinus.storyapp.util
+package com.bangkit.emergenz.util
 
 import android.app.Application
 import android.content.ContentResolver
