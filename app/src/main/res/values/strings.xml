@@ -37,4 +37,16 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="takepic_fail">Failed to take a picture</string>
+    <string name="camera_fail">Failed to get the camera</string>
+    <string name="btn_take_a_photo">Take a Photo</string>
+    <string name="capture_image">Capture the Image</string>
+    <string name="iv_setting">Setting</string>
+    <string name="iv_profile">Profile</string>
+    <string name="iv_pfp">Profile Picture</string>
+    <string name="logout">Logout</string>
+    <string name="register_your_id">Register your ID</string>
+    <string name="nip">NIP</string>
+    <string name="apply">Apply</string>
+    <string name="perm_lack">Permission not granted</string>
 </resources>
