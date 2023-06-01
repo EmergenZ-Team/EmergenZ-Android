@@ -35,7 +35,7 @@ class CallPageFragment : BottomSheetDialogFragment() {
             R.drawable.ic_tab_police,
             R.drawable.ic_tab_hospital
         )
-        val sectionPagerAdapter = ViewPageAdapter(requireActivity())
+        val sectionPagerAdapter = ViewPageAdapter(this)
         val viewPager: ViewPager2 = binding.viewPager2Call
 
         viewPager.adapter = sectionPagerAdapter
