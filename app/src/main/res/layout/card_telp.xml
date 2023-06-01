@@ -29,7 +29,7 @@
             android:contentDescription="@string/icon_telp_card" />
 
         <TextView
-            android:id="@+id/rv_name_place"
+            android:id="@+id/tv_name_place"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -42,15 +42,15 @@
             tools:text="Pemadam Kebakaran Surabaya" />
 
         <TextView
-            android:id="@+id/rv_number_phone"
+            android:id="@+id/tv_number_phone"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:textSize="12sp"
-            card_view:layout_constraintStart_toStartOf="@+id/rv_name_place"
-            card_view:layout_constraintTop_toBottomOf="@+id/rv_name_place"
+            card_view:layout_constraintStart_toStartOf="@+id/tv_name_place"
+            card_view:layout_constraintTop_toBottomOf="@+id/tv_name_place"
             tools:text="(031) 144045" />
 
         <ImageView
