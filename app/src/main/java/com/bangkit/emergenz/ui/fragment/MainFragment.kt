@@ -51,7 +51,7 @@ class MainFragment : Fragment() {
         topNavMenu()
     }
 
-    private fun testButton(){
+    private fun testButton() {
         binding.button.setOnClickListener {
             coroutineScope.launch {
                 val waitLoc = async {
@@ -59,11 +59,14 @@ class MainFragment : Fragment() {
                 }
                 delay(200)
                 waitLoc.await()
-                if (location!=null){
+                if (location != null) {
                     val args = "${location!!.latitude}%2C${location!!.longitude}"
                     locViewModel.setArgument(args)
                     val bottomSheetFragment = CallPageFragment()
-                    bottomSheetFragment.show(requireActivity().supportFragmentManager, "CallPageFragment")
+                    bottomSheetFragment.show(
+                        requireActivity().supportFragmentManager,
+                        "CallPageFragment"
+                    )
                 }
             }
         }
@@ -112,13 +115,15 @@ class MainFragment : Fragment() {
         }
 
         return true
-    private fun topNavMenu(){
-        binding.ivProfile.setOnClickListener{
+    }
+
+    private fun topNavMenu() {
+        binding.ivProfile.setOnClickListener {
             val intent = Intent(requireActivity(), ProfileActivity::class.java)
             startActivity(intent)
         }
 
-        binding.ivSetting.setOnClickListener{
+        binding.ivSetting.setOnClickListener {
             //What kind of menu should we add this??
         }
     }
