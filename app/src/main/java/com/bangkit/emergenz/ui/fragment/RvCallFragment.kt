@@ -1,22 +1,34 @@
 package com.bangkit.emergenz.ui.fragment
 
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.bangkit.emergenz.R
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.emergenz.adapter.CallAdapter
+import com.bangkit.emergenz.data.api.ApiConfig
+import com.bangkit.emergenz.data.repository.CallRepository
 import com.bangkit.emergenz.databinding.FragmentRvCallBinding
+import com.bangkit.emergenz.ui.viewmodel.CallViewModel
+import com.bangkit.emergenz.ui.viewmodel.LocViewModel
+import com.bangkit.emergenz.ui.viewmodel.ViewModelFactory
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class RvCallFragment : Fragment() {
+class RvCallFragment(var query: String) : Fragment() {
     private var _binding: FragmentRvCallBinding? = null
     private val binding get() = _binding!!
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var callViewModel: CallViewModel
+    private lateinit var locViewModel: LocViewModel
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,32 +40,92 @@ class RvCallFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.button2.setOnClickListener {
-            setCustomDialogBox()
+        val apiService = ApiConfig.getApiService()
+        val callRepository = CallRepository(apiService)
+        val viewModelFactory = ViewModelFactory(callRepository)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        callViewModel = ViewModelProvider(this, viewModelFactory)[CallViewModel::class.java]
+        locViewModel = ViewModelProvider(requireActivity())[LocViewModel::class.java]
+
+        coroutineScope.launch {
+            val waitSearch = async {
+                setSearchPlace()
+            }
+            waitSearch.await()
+            delay(500)
+            getPlaceDetail()
+            delay(500)
+            setRecycleView()
         }
     }
 
-    private fun setCustomDialogBox(){
-        val dialog = Dialog(requireContext())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.card_alert)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    private fun setSearchPlace() {
+        val myLoc= locViewModel.getArgumentLiveData().value.toString()
+        val myLocBias= "circle%3A1000%40$myLoc"
 
-        val btnYes: Button = dialog.findViewById(R.id.btn_yes)
-        val btnNo: Button = dialog.findViewById(R.id.btn_no)
+        callViewModel.getPlaceId(query, myLocBias)
+        callViewModel.getSearchText(myLoc, query)
+    }
 
-        btnYes.setOnClickListener {
-            Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
+    private fun getPlaceDetail() {
+        callViewModel.getListPlaceIds().observe(viewLifecycleOwner) { placeIds ->
+            when (query) {
+                FIRE -> {
+                    for (placeId in placeIds) {
+                        callViewModel.getPlaceDetail(FIRE, placeId)
+                    }
+                }
+                HOSPITAL -> {
+                    for (placeId in placeIds) {
+                        callViewModel.getPlaceDetail(HOSPITAL, placeId)
+                    }
+                }
+                POLICE -> {
+                    for (placeId in placeIds) {
+                        callViewModel.getPlaceDetail(POLICE, placeId)
+                    }
+                }
+            }
         }
-        btnNo.setOnClickListener {
-            dialog.dismiss()
+    }
+
+    private fun setRecycleView() {
+        val recyclerView = binding.rvCall
+        val layoutManager = LinearLayoutManager(requireContext())
+        val adapter = CallAdapter(emptyList(), requireContext())
+
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = layoutManager
+
+        when (query) {
+            FIRE -> {
+                callViewModel.dataFire.observe(viewLifecycleOwner) { newData ->
+                    adapter.setData(newData)
+                }
+            }
+            HOSPITAL -> {
+                callViewModel.dataHospital.observe(viewLifecycleOwner) { newData ->
+                    adapter.setData(newData)
+                }
+            }
+            POLICE -> {
+                callViewModel.dataPolice.observe(viewLifecycleOwner) { newData ->
+                    adapter.setData(newData)
+                }
+            }
         }
-        dialog.show()
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object{
+        const val POLICE = "Polisi"
+        const val FIRE = "Pemadam Kebakaran"
+        const val HOSPITAL = "Rumah Sakit"
     }
 }
