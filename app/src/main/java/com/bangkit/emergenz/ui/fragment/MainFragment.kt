@@ -1,9 +1,11 @@
 package com.bangkit.emergenz.ui.fragment
 
+
 import android.Manifest
 import android.content.ContentValues
 import android.content.pm.PackageManager
 import android.location.Location
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,6 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import com.bangkit.emergenz.ui.activity.ProfileActivity
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
@@ -45,6 +48,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         locViewModel = ViewModelProvider(requireActivity())[LocViewModel::class.java]
         testButton()
+        topNavMenu()
     }
 
     private fun testButton(){
@@ -108,6 +112,15 @@ class MainFragment : Fragment() {
         }
 
         return true
+    private fun topNavMenu(){
+        binding.ivProfile.setOnClickListener{
+            val intent = Intent(requireActivity(), ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.ivSetting.setOnClickListener{
+            //What kind of menu should we add this??
+        }
     }
 
     override fun onDestroy() {

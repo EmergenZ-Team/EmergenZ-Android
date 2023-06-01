@@ -1,8 +1,9 @@
-package com.bangkit.emergenz
+package com.bangkit.emergenz.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import com.bangkit.emergenz.R
 import com.bangkit.emergenz.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -21,9 +22,14 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.background = null
         binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.action_home -> findNavController(R.id.nav_host_fragment_content_main).popBackStack(R.id.mainFragment, false)
-                R.id.action_contact -> findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.contactFragment)
-                R.id.action_article -> findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.articleFragment)
+                R.id.action_home -> findNavController(R.id.nav_host_fragment_content_main).popBackStack(
+                    R.id.mainFragment, false)
+                R.id.action_contact -> findNavController(R.id.nav_host_fragment_content_main).navigate(
+                    R.id.contactFragment
+                )
+                R.id.action_article -> findNavController(R.id.nav_host_fragment_content_main).navigate(
+                    R.id.articleFragment
+                )
             }
             true
         }
