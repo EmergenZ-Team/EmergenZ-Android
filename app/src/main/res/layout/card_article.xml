@@ -29,7 +29,7 @@
             android:contentDescription="@string/icon_article_card" />
 
         <TextView
-            android:id="@+id/rv_article_name"
+            android:id="@+id/tv_article_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -43,7 +43,7 @@
             tools:text="Warung Terbakar di Penjaringan Jakut, 11 Unit Damkar Dikerahkan" />
 
         <TextView
-            android:id="@+id/rv_article_desc"
+            android:id="@+id/tv_article_desc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -51,8 +51,8 @@
             android:maxLines="2"
             android:textSize="12sp"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="@+id/rv_article_name"
-            card_view:layout_constraintTop_toBottomOf="@+id/rv_article_name"
+            card_view:layout_constraintStart_toStartOf="@+id/tv_article_name"
+            card_view:layout_constraintTop_toBottomOf="@+id/tv_article_name"
             tools:text="Kebakaran melanda sebuah warung di Penjaringan, Jakarta Utara (Jakut). Belasan unit pemadam kebakaran (damkar) dikerahkan memadamkan api." />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

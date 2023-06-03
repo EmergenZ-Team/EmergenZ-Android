@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.bangkit.emergenz.data.repository.CallRepository
-import com.bangkit.emergenz.data.response.Result
+import com.bangkit.emergenz.data.response.call.Result
 import com.bangkit.emergenz.ui.fragment.RvCallFragment.Companion.FIRE
 import com.bangkit.emergenz.ui.fragment.RvCallFragment.Companion.HOSPITAL
 import com.bangkit.emergenz.ui.fragment.RvCallFragment.Companion.POLICE
@@ -129,7 +129,7 @@ class CallViewModel(private val callRepository: CallRepository) : ViewModel(){
 }
 
 @Suppress("UNCHECKED_CAST")
-class ViewModelFactory(private val callRepository: CallRepository) : ViewModelProvider.Factory {
+class CallViewModelFactory(private val callRepository: CallRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CallViewModel::class.java)) {
             return CallViewModel(callRepository) as T

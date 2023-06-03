@@ -1,13 +1,13 @@
 package com.bangkit.emergenz.data.api
 
-import com.bangkit.emergenz.data.response.FindPlaceResponse
-import com.bangkit.emergenz.data.response.PlaceDetailResponse
-import com.bangkit.emergenz.data.response.SearchTextResponse
+import com.bangkit.emergenz.data.response.call.FindPlaceResponse
+import com.bangkit.emergenz.data.response.call.PlaceDetailResponse
+import com.bangkit.emergenz.data.response.call.SearchTextResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ApiService {
+interface CallApiService {
     @GET("maps/api/place/findplacefromtext/json")
     suspend fun findPlacesId(
         @Query("input") input: String,
