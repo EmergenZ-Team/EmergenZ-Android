@@ -12,7 +12,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.emergenz.R
-import com.bangkit.emergenz.data.response.Result
+import com.bangkit.emergenz.data.response.call.Result
 import com.bangkit.emergenz.databinding.CardTelpBinding
 
 class CallAdapter(private var data: List<Result>, private val context: Context) : RecyclerView.Adapter<CallAdapter.MyViewHolder>() {

@@ -1,4 +1,4 @@
-package com.bangkit.emergenz.data.response
+package com.bangkit.emergenz.data.response.call
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
