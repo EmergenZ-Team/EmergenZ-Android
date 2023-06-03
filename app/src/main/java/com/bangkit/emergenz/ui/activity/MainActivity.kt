@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.bangkit.emergenz.R
 import com.bangkit.emergenz.databinding.ActivityMainBinding
-import com.bangkit.emergenz.ui.fragment.ContactFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,6 +36,8 @@ class MainActivity : AppCompatActivity() {
                             REQUIRED_PERMISSIONS,
                             REQUEST_CODE_PERMISSIONS
                         )
+                        findNavController(R.id.nav_host_fragment_content_main).popBackStack(
+                            R.id.mainFragment, false)
                     } else {
                         findNavController(R.id.nav_host_fragment_content_main).navigate(
                             R.id.contactFragment)
@@ -71,7 +72,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.READ_CONTACTS)
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE)
         private const val REQUEST_CODE_PERMISSIONS = 10
     }
 
