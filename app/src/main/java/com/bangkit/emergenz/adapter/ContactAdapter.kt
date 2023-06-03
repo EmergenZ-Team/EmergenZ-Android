@@ -3,6 +3,7 @@ package com.bangkit.emergenz.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bangkit.emergenz.R
 import com.bangkit.emergenz.data.local.model.Contact
 import com.bangkit.emergenz.databinding.CardTelpBinding
 
@@ -13,7 +14,6 @@ class ContactAdapter(private val listContact: List<Contact>) :
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
-
 
     class ListViewHolder(var binding: CardTelpBinding): RecyclerView.ViewHolder(binding.root)
 
@@ -29,7 +29,8 @@ class ContactAdapter(private val listContact: List<Contact>) :
         holder.binding.apply {
             tvNamePlace.text = contact.name
             tvNumberPhone.text = contact.number
-            ivCall.setOnClickListener{onItemClickCallback.onItemClicked(listContact[holder.bindingAdapterPosition])}
+            ivCall.setOnClickListener{onItemClickCallback.onItemClicked(listContact[holder.adapterPosition])}
+            ivUserPhoto.setImageResource(R.drawable.ic_person)
         }
     }
 
