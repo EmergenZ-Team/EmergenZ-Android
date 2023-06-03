@@ -7,7 +7,7 @@
     tools:context=".ui.fragment.ArticleFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_contact"
+        android:id="@+id/rv_article"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
