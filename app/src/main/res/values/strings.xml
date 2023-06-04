@@ -50,4 +50,5 @@
     <string name="apply">Apply</string>
     <string name="perm_lack">Permission not granted</string>
     <string name="address">Address</string>
+    <string name="logo_splashscreen">Logo Splashscreen</string>
 </resources>
