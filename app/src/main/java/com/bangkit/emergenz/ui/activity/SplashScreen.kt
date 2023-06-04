@@ -1,13 +1,9 @@
 package com.bangkit.emergenz.ui.activity
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import com.bangkit.emergenz.R
 import com.bangkit.emergenz.databinding.ActivitySplashScreenBinding
@@ -23,11 +19,9 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        moveToMain()
         startup()
     }
 
-    @Suppress("DEPRECATION")
     private fun startup() {
         val imgSplashScreen: ImageView = findViewById(R.id.img_splash_screen)
 
