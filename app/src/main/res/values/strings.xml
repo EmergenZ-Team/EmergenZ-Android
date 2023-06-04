@@ -15,6 +15,9 @@
     <string name="btn_yes">Ya</string>
     <string name="btn_no">Tidak</string>
     <string name="test_popup">Test Popup</string>
+    <string name="logo_splashscreen">Logo Splashscreen</string>
+    <string name="panic_button_desc">Panic Button</string>
+    <string name="panic_button_label">Klik cepat 3 kali untuk mencari nomor telepon darurat terdekat</string>
 
     <!--    Login & Register-->
     <string name="pw_warning">Password must at least contains 8 characters!</string>
@@ -50,5 +53,5 @@
     <string name="apply">Apply</string>
     <string name="perm_lack">Permission not granted</string>
     <string name="address">Address</string>
-    <string name="logo_splashscreen">Logo Splashscreen</string>
+    
 </resources>
