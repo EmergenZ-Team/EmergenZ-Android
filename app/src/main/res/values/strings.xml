@@ -51,4 +51,6 @@
     <string name="perm_lack">Permission not granted</string>
     <string name="address">Address</string>
     <string name="logo_splashscreen">Logo Splashscreen</string>
+    <string name="panic_button_desc">Panic Button</string>
+    <string name="panic_button_label">Klik cepat 3 kali untuk mencari nomor telepon darurat terdekat</string>
 </resources>

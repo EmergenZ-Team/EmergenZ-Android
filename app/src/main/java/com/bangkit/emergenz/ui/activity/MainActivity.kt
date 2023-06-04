@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBottomNavigation(){
-        binding.bottomNav.background = null
         binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.action_home -> findNavController(R.id.nav_host_fragment_content_main).popBackStack(
