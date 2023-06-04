@@ -7,6 +7,8 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +36,11 @@ class MainFragment : Fragment() {
     private var location: Location? = null
     private lateinit var locViewModel: LocViewModel
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private var clickCount: Int = 0
+    private var doubleClickHandler: Handler? = null
+    private val doubleClickRunnable = Runnable {
+        clickCount = 0
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,26 +54,44 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         locViewModel = ViewModelProvider(requireActivity())[LocViewModel::class.java]
-        testButton()
+        panicButton()
         topNavMenu()
     }
 
-    private fun testButton() {
-        binding.button.setOnClickListener {
-            coroutineScope.launch {
-                val waitLoc = async {
-                    getMyLocation()
+    private fun panicButton() {
+        binding.btnCircle.setOnClickListener {
+            clickCount++
+
+            when {
+                clickCount == 1 -> {
+                    doubleClickHandler = Handler(Looper.getMainLooper())
+                    doubleClickHandler?.postDelayed(doubleClickRunnable, 1000)
                 }
-                delay(200)
-                waitLoc.await()
-                if (location != null) {
-                    val args = "${location!!.latitude}%2C${location!!.longitude}"
-                    locViewModel.setArgument(args)
-                    val bottomSheetFragment = CallPageFragment()
-                    bottomSheetFragment.show(
-                        requireActivity().supportFragmentManager,
-                        "CallPageFragment"
-                    )
+                clickCount == 3 -> {
+                    coroutineScope.launch {
+                        val waitLoc = async {
+                            getMyLocation()
+                        }
+                        delay(200)
+                        waitLoc.await()
+                        if (location != null) {
+                            val args = "${location!!.latitude}%2C${location!!.longitude}"
+                            locViewModel.setArgument(args)
+                            val bottomSheetFragment = CallPageFragment()
+                            bottomSheetFragment.show(
+                                requireActivity().supportFragmentManager,
+                                "CallPageFragment"
+                            )
+                        }
+                    }
+                    clickCount = 0
+                    doubleClickHandler?.removeCallbacks(doubleClickRunnable)
+                    doubleClickHandler = null
+                }
+                clickCount > 3 -> {
+                    clickCount = 0
+                    doubleClickHandler?.removeCallbacks(doubleClickRunnable)
+                    doubleClickHandler = null
                 }
             }
         }
@@ -129,6 +154,7 @@ class MainFragment : Fragment() {
     }
 
     override fun onDestroy() {
+        doubleClickHandler?.removeCallbacks(doubleClickRunnable)
         super.onDestroy()
         _binding = null
     }
