@@ -13,7 +13,7 @@ import com.bangkit.emergenz.data.repository.CallRepository
 import com.bangkit.emergenz.databinding.FragmentRvCallBinding
 import com.bangkit.emergenz.ui.viewmodel.CallViewModel
 import com.bangkit.emergenz.ui.viewmodel.LocViewModel
-import com.bangkit.emergenz.ui.viewmodel.ViewModelFactory
+import com.bangkit.emergenz.ui.viewmodel.CallViewModelFactory
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.CoroutineScope
@@ -42,7 +42,7 @@ class RvCallFragment(var query: String) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val apiService = ApiConfig.getApiService()
         val callRepository = CallRepository(apiService)
-        val viewModelFactory = ViewModelFactory(callRepository)
+        val viewModelFactory = CallViewModelFactory(callRepository)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         callViewModel = ViewModelProvider(this, viewModelFactory)[CallViewModel::class.java]

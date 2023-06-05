@@ -16,6 +16,8 @@ import androidx.navigation.findNavController
 import com.bangkit.emergenz.R
 import com.bangkit.emergenz.databinding.FragmentLoginBinding
 import com.bangkit.emergenz.ui.activity.MainActivity
+import com.bangkit.emergenz.ui.viewmodel.LoginViewModel
+import com.bangkit.emergenz.ui.viewmodel.ViewModelFactory
 
 //private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "token")
 class LoginFragment : Fragment() {
@@ -34,6 +36,21 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val pref = UserPreferences.getInstance(requireContext().dataStore)
+        loginViewModel = ViewModelProvider(requireActivity(), ViewModelFactory(pref))[LoginViewModel::class.java]
+
+        loginViewModel.isFinished.observe(viewLifecycleOwner){
+            isMovingTime(it)
+        }
+
+        loginViewModel.isLoading.observe(viewLifecycleOwner){
+            showLoading(it)
+        }
+
+        loginViewModel.toast.observe(viewLifecycleOwner){ fungus ->
+            showToast(fungus)
+        }
 
         binding.tvRegisterNow.setOnClickListener{
             view.findNavController().navigate(R.id.action_loginFragment2_to_registerFragment2)

@@ -129,7 +129,7 @@ class CallViewModel(private val callRepository: CallRepository) : ViewModel(){
 }
 
 @Suppress("UNCHECKED_CAST")
-class ViewModelFactory(private val callRepository: CallRepository) : ViewModelProvider.Factory {
+class CallViewModelFactory(private val callRepository: CallRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CallViewModel::class.java)) {
             return CallViewModel(callRepository) as T
