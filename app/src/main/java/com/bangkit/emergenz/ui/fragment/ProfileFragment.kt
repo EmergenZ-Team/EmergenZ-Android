@@ -30,5 +30,9 @@ class ProfileFragment : Fragment() {
         binding.btnIdRegister.setOnClickListener{
             view.findNavController().navigate(R.id.action_profileFragment_to_registerKtpFragment)
         }
+
+        binding.btnLogout.setOnClickListener{
+
+        }
     }
 }
