@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -39,17 +37,26 @@ class SplashScreen : AppCompatActivity() {
         tokenViewModel.getToken().observe(this){
             token = it
         }
-        tokenViewModel.getSession().observe(this){
+        tokenViewModel.getSession().observe(this) {
             onSession = it
+        }
           
         val imgSplashScreen: ImageView = findViewById(R.id.img_splash_screen)
 
         imgSplashScreen.alpha = 0f
         imgSplashScreen.animate().setDuration(STARTUP_TIME).alpha(1f).withEndAction {
-            val moveToMainActivity = Intent(this@SplashScreen, MainActivity::class.java)
-            startActivity(moveToMainActivity)
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-            finish()
+            if(onSession) {
+                val moveToMainActivity = Intent(this@SplashScreen, MainActivity::class.java)
+                startActivity(moveToMainActivity)
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                finish()
+            }
+            else{
+                val moveToAuthActivity = Intent(this@SplashScreen, AuthActivity::class.java)
+                startActivity(moveToAuthActivity)
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                finish()
+            }
         }
     }
 
