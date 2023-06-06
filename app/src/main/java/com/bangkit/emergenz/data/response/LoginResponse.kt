@@ -23,7 +23,7 @@ data class Data(
 	@field:SerializedName("name")
 	val name: String,
 
-	@field:SerializedName("userId")
+	@field:SerializedName("user_id")
 	val userId: String,
 
 	@field:SerializedName("token")
