@@ -53,6 +53,7 @@ class ProfileFragment : Fragment() {
 
     private fun logout() {
         val intent = Intent(requireActivity(), AuthActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         profileViewModel.saveToken("")
         profileViewModel.setSession(false)
         startActivity(intent)
