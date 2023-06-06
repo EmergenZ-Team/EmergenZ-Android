@@ -12,6 +12,8 @@ class ViewModelFactory(private val pref: UserPreferences) : ViewModelProvider.Ne
             TokenViewModel(pref) as T
         }else if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             LoginViewModel(pref) as T
+        }else if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
+            ProfileViewModel(pref) as T
         }else
             throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
