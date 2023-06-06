@@ -1,23 +1,22 @@
-package com.bangkit.emergenz.data.response
+package com.bangkit.emergenz.data.response.call
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class SearchTextResponse(
+data class FindPlaceResponse(
 
-	@field:SerializedName("results")
-	val results: List<ResultsItem?>? = null,
+	@field:SerializedName("candidates")
+	val candidates: List<CandidatesItem?>? = null,
 
 	@field:SerializedName("status")
 	val status: String? = null
 ) : Parcelable
 
 @Parcelize
-data class ResultsItem(
+data class CandidatesItem(
 
 	@field:SerializedName("place_id")
-	val placeId: String? = null,
-
+	val placeId: String? = null
 ) : Parcelable

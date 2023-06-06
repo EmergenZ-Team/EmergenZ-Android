@@ -40,12 +40,12 @@ class RvCallFragment(var query: String) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val apiService = ApiConfig.getApiService()
+        val apiService = ApiConfig.getApiServiceCall()
         val callRepository = CallRepository(apiService)
-        val viewModelFactory = CallViewModelFactory(callRepository)
+        val callViewModelFactory = CallViewModelFactory(callRepository)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        callViewModel = ViewModelProvider(this, viewModelFactory)[CallViewModel::class.java]
+        callViewModel = ViewModelProvider(this, callViewModelFactory)[CallViewModel::class.java]
         locViewModel = ViewModelProvider(requireActivity())[LocViewModel::class.java]
 
         coroutineScope.launch {

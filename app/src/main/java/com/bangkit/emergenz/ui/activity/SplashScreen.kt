@@ -12,6 +12,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.emergenz.data.local.datastore.UserPreferences
+import android.widget.ImageView
+import com.bangkit.emergenz.R
 import com.bangkit.emergenz.databinding.ActivitySplashScreenBinding
 import com.bangkit.emergenz.ui.viewmodel.TokenViewModel
 import com.bangkit.emergenz.ui.viewmodel.ViewModelFactory
@@ -39,19 +41,19 @@ class SplashScreen : AppCompatActivity() {
         }
         tokenViewModel.getSession().observe(this){
             onSession = it
-        }
-        Handler(Looper.getMainLooper()).postDelayed({
-            if(onSession) {
-                val i = Intent(this@SplashScreen, MainActivity::class.java)
-                startActivity(i)
-            } else {
-                val i = Intent(this@SplashScreen, AuthActivity::class.java)
-                startActivity(i)
-            }
+          
+        val imgSplashScreen: ImageView = findViewById(R.id.img_splash_screen)
+
+        imgSplashScreen.alpha = 0f
+        imgSplashScreen.animate().setDuration(STARTUP_TIME).alpha(1f).withEndAction {
+            val moveToMainActivity = Intent(this@SplashScreen, MainActivity::class.java)
+            startActivity(moveToMainActivity)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             finish()
-        }, STARTUP_TIME)
+        }
     }
+
     companion object{
-        const val STARTUP_TIME : Long = 2000
+        const val STARTUP_TIME : Long = 1000
     }
 }

@@ -15,8 +15,8 @@ class ViewPageAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> RvCallFragment(FIRE)
-            1 -> RvCallFragment(HOSPITAL)
-            2 -> RvCallFragment(POLICE)
+            1 -> RvCallFragment(POLICE)
+            2 -> RvCallFragment(HOSPITAL)
             else -> throw IllegalArgumentException("Invalid position")
         }
     }

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.bangkit.emergenz.data.repository.CallRepository
-import com.bangkit.emergenz.data.response.Result
+import com.bangkit.emergenz.data.response.call.Result
 import com.bangkit.emergenz.ui.fragment.RvCallFragment.Companion.FIRE
 import com.bangkit.emergenz.ui.fragment.RvCallFragment.Companion.HOSPITAL
 import com.bangkit.emergenz.ui.fragment.RvCallFragment.Companion.POLICE
