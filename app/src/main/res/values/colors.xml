@@ -2,10 +2,11 @@
 <resources>
     <color name="colorPrimary">#DF5632</color>
     <color name="colorSecondary">#E19B35</color>
-    <color name="colorControlHighlight">#FF0000</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue_link">#57B1FF</color>
     <color name="bar_color">#fff2ecf6</color>
+    <color name="bg_light">#B7ECEAEA</color>
+    <color name="bg_dark">#B73E3B3B</color>
 </resources>
