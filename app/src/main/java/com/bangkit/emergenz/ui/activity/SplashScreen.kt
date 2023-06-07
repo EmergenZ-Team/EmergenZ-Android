@@ -48,15 +48,14 @@ class SplashScreen : AppCompatActivity() {
             if(onSession) {
                 val moveToMainActivity = Intent(this@SplashScreen, MainActivity::class.java)
                 startActivity(moveToMainActivity)
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                finish()
             }
             else{
                 val moveToAuthActivity = Intent(this@SplashScreen, AuthActivity::class.java)
                 startActivity(moveToAuthActivity)
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                finish()
+
             }
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            finish()
         }
     }
 

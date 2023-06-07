@@ -34,17 +34,6 @@
             android:text="EmergenZ Woopsie" />
 
         <TextView
-            android:id="@+id/tv_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/iv_pfp"
-            app:layout_constraintTop_toBottomOf="@+id/tv_full_name"
-            android:text="EVERYWHERE" />
-
-        <TextView
             android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +41,7 @@
             android:textSize="16sp"
             android:textStyle="italic"
             app:layout_constraintStart_toEndOf="@+id/iv_pfp"
-            app:layout_constraintTop_toBottomOf="@+id/tv_location"
+            app:layout_constraintTop_toBottomOf="@+id/tv_full_name"
             tools:text="emergenz@emergenz.org" />
 
         <Button
@@ -60,6 +49,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/logout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -72,65 +62,74 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="@string/nip"
+            android:text="@string/nik"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_pfp" />
 
-        <EditText
-            android:id="@+id/ed_nip"
+        <TextView
+            android:id="@+id/tv_nip_filled"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
-            android:inputType="text"
-            android:hint="@string/nip"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_nip"
-            android:autofillHints="" />
+            android:text="@string/field_empty"/>
 
         <TextView
-            android:id="@+id/tv_alamat"
+            android:id="@+id/tv_gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="@string/address"
+            android:text="@string/gender"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ed_nip" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_nip_filled" />
 
-        <EditText
-            android:id="@+id/ed_alamat"
+        <TextView
+            android:id="@+id/tv_gender_filled"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
-            android:inputType="text"
-            android:hint="@string/address"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_alamat"
-            android:autofillHints="" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_gender"
+            android:text="@string/field_empty"/>
 
-        <Button
-            android:id="@+id/btn_id_apply"
+        <TextView
+            android:id="@+id/tv_province"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/province"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_gender_filled" />
+
+        <TextView
+            android:id="@+id/tv_province_filled"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/apply"
+            android:ems="10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ed_alamat" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_province"
+            android:text="@string/field_empty"/>
 
         <Button
             android:id="@+id/btn_id_register"
@@ -139,7 +138,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="@string/register_your_id"
+            android:text="@string/change_detail"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

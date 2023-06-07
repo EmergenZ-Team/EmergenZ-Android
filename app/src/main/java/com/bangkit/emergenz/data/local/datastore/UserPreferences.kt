@@ -23,9 +23,21 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
         }
     }
 
+    fun getEmail(): Flow<String> {
+        return dataStore.data.map { preferences ->
+            preferences[EMAIL] ?: ""
+        }
+    }
+
     suspend fun saveToken(Token: String) {
         dataStore.edit { preferences ->
             preferences[TOKEN_KEY] = Token
+        }
+    }
+
+    suspend fun setEmail(Email: String){
+        dataStore.edit { preferences ->
+            preferences[EMAIL] = Email
         }
     }
 
@@ -35,18 +47,17 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
         }
     }
 
-    suspend fun setUser(Username: String, Id: String) {
+    suspend fun setUser(Username: String) {
         dataStore.edit { preferences ->
             preferences[USERNAME] = Username
-            preferences[ID] = Id
         }
     }
 
     companion object {
         private val TOKEN_KEY = stringPreferencesKey("bearer_token")
         private val SESSION_STATE = booleanPreferencesKey("on_session")
-        private val ID = stringPreferencesKey("id")
         private val USERNAME = stringPreferencesKey("username")
+        private val EMAIL = stringPreferencesKey("email")
 
         @Volatile
         private var INSTANCE: UserPreferences? = null

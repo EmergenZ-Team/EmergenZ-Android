@@ -48,10 +48,13 @@
     <string name="iv_profile">Profile</string>
     <string name="iv_pfp">Profile Picture</string>
     <string name="logout">Logout</string>
-    <string name="register_your_id">Register your ID</string>
-    <string name="nip">NIP</string>
+    <string name="change_detail">Change your detail</string>
+    <string name="nik">NIK</string>
     <string name="apply">Apply</string>
     <string name="perm_lack">Permission not granted</string>
     <string name="address">Address</string>
-    
+    <string name="field_empty">Not filled in</string>
+    <string name="gender">Gender</string>
+    <string name="province">Province</string>
+
 </resources>
