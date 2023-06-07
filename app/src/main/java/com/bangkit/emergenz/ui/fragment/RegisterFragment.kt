@@ -1,7 +1,5 @@
 package com.bangkit.emergenz.ui.fragment
 
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Patterns
 import androidx.fragment.app.Fragment
@@ -13,12 +11,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.bangkit.emergenz.R
 import com.bangkit.emergenz.databinding.FragmentRegisterBinding
+import com.bangkit.emergenz.ui.viewmodel.RegisterViewModel
 
 class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
-//    private lateinit var registerViewModel: RegisterViewModel
+    private lateinit var registerViewModel: RegisterViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,6 +30,20 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        registerViewModel = ViewModelProvider(requireActivity(), ViewModelProvider.NewInstanceFactory())[RegisterViewModel::class.java]
+
+        registerViewModel.isLoading.observe(viewLifecycleOwner){
+            showLoading(it)
+        }
+
+        registerViewModel.toast.observe(viewLifecycleOwner){bungus ->
+            showToast(bungus)
+        }
+
+        registerViewModel.isFinished.observe(viewLifecycleOwner){
+            isMovingTime(it)
+        }
 
         binding.tvLoginNow.setOnClickListener{
             view.findNavController().navigate(R.id.action_registerFragment2_to_loginFragment2)
@@ -65,8 +78,30 @@ class RegisterFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                else -> view?.findNavController()?.navigate(R.id.action_registerFragment2_to_loginFragment2)
+                else -> register(username, email, password)
             }
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBarRegister.visibility = View.VISIBLE
+            binding.btnRegister.isEnabled = false
+            binding.tvLoginNow.isEnabled = false
+        } else {
+            binding.progressBarRegister.visibility = View.GONE
+            binding.btnRegister.isEnabled = true
+            binding.tvLoginNow.isEnabled = true
+        }
+    }
+
+    private fun register(username : String, email: String, password : String) {
+        registerViewModel.postRegisterIntent(username, email, password)
+    }
+
+    private fun isMovingTime(isFinished: Boolean?) {
+        if(isFinished == true){
+            view?.findNavController()?.navigate(R.id.action_registerFragment2_to_loginFragment2)
         }
     }
 
@@ -74,7 +109,16 @@ class RegisterFragment : Fragment() {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
+    private fun showToast(bungus: String?) {
+        Toast.makeText(requireActivity(), bungus, Toast.LENGTH_SHORT).show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.btnRegister.setOnClickListener(null)
+        binding.progressBarRegister.visibility = View.GONE
+        binding.tvLoginNow.isEnabled = true
+        binding.btnRegister.isEnabled = true
+        _binding = null
     }
 }

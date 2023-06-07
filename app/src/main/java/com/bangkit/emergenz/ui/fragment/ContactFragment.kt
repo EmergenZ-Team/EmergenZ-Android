@@ -108,7 +108,7 @@ class ContactFragment : Fragment(){
         dialog.show()
     }
 
-    private fun makeCall(phoneNumber: String) {
+    fun makeCall(phoneNumber: String) {
         val intent = Intent(Intent.ACTION_CALL)
         intent.data = Uri.parse("tel:$phoneNumber")
         startActivity(intent)

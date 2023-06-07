@@ -52,6 +52,7 @@
             android:name=".ui.activity.MainActivity"
             android:exported="true"
             android:theme="@style/Base.Theme.EmergenZ.Appbar"/>
+      
     </application>
 
 </manifest>
