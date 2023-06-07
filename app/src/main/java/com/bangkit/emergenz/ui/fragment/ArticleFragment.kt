@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,8 +38,15 @@ class ArticleFragment : Fragment() {
         val articleViewModelFactory = ArticleViewModelFactory(articleRepository)
 
         articleViewModel = ViewModelProvider(this, articleViewModelFactory)[ArticleViewModel::class.java]
+        setToolbar()
         articleViewModel.fetchDataAndCache()
         setDataToFragment()
+    }
+
+    private fun setToolbar(){
+        val activity = requireActivity() as AppCompatActivity
+        activity.supportActionBar?.show()
+        activity.supportActionBar?.title = "Artikel"
     }
 
     private fun setDataToFragment() {

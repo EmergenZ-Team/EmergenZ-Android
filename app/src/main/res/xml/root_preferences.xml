@@ -1,0 +1,26 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/general_header">
+
+        <ListPreference
+            app:defaultValue="otomatis"
+            app:entries="@array/theme_entries"
+            app:entryValues="@array/theme_values"
+            app:key="theme"
+            app:title="@string/reply_title"
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/ic_palette"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/about_header">
+
+        <Preference
+            app:title="@string/about_title"
+            app:icon="@drawable/ic_info"
+            app:key="about"
+            app:summary="1.0"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

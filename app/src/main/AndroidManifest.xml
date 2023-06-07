@@ -25,6 +25,11 @@
         android:theme="@style/Theme.EmergenZ"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.SettingsActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.EmergenZ.Appbar"
+            android:label="@string/title_activity_settings" />
+        <activity
             android:name=".ui.activity.SplashScreen"
             android:exported="true">
             <intent-filter>
@@ -45,8 +50,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"
+            android:theme="@style/Base.Theme.EmergenZ.Appbar"/>
     </application>
 
 </manifest>
