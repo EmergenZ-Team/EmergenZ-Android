@@ -18,6 +18,7 @@
     <string name="logo_splashscreen">Logo Splashscreen</string>
     <string name="panic_button_desc">Panic Button</string>
     <string name="panic_button_label">Klik cepat 3 kali untuk mencari nomor telepon darurat terdekat</string>
+    <string name="title_activity_settings">Setelan</string>
 
     <!--    Login & Register-->
     <string name="pw_warning">Password must at least contains 8 characters!</string>
@@ -53,5 +54,13 @@
     <string name="apply">Apply</string>
     <string name="perm_lack">Permission not granted</string>
     <string name="address">Address</string>
-    
+
+    <!-- Preference Titles -->
+    <string name="general_header">Umum</string>
+    <string name="about_header">Tentang</string>
+
+    <!-- Messages Preferences -->
+    <string name="reply_title">Tema</string>
+    <string name="about_title">Versi</string>
+
 </resources>
