@@ -5,12 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_maps"
-    tools:context=".ui.fragment.MainFragment">
+    tools:context=".ui.fragment.MainFragment"
+    android:id="@+id/bg_maps">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bg_transparent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#B7ECEAEA">
+        android:background="@color/bg_light">
 
         <ImageView
             android:id="@+id/iv_profile"
