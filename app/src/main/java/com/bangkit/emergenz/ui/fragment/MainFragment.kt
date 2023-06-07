@@ -3,9 +3,9 @@ package com.bangkit.emergenz.ui.fragment
 
 import android.Manifest
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,11 +14,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.emergenz.databinding.FragmentMainBinding
+import com.bangkit.emergenz.ui.activity.ProfileActivity
+import com.bangkit.emergenz.ui.activity.SettingsActivity
 import com.bangkit.emergenz.ui.viewmodel.LocViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -27,7 +30,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import com.bangkit.emergenz.ui.activity.ProfileActivity
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
@@ -54,8 +56,15 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         locViewModel = ViewModelProvider(requireActivity())[LocViewModel::class.java]
+        setToolbar()
         panicButton()
         topNavMenu()
+    }
+
+    private fun setToolbar(){
+        val activity = requireActivity() as AppCompatActivity
+        activity.supportActionBar?.hide()
+        activity.supportActionBar?.title = "Home"
     }
 
     private fun panicButton() {
@@ -149,7 +158,8 @@ class MainFragment : Fragment() {
         }
 
         binding.ivSetting.setOnClickListener {
-            //What kind of menu should we add this??
+            val intent = Intent(requireActivity(), SettingsActivity::class.java)
+            startActivity(intent)
         }
     }
 
