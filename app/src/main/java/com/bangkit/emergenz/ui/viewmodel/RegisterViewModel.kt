@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bangkit.emergenz.data.api.ApiConfigCloud
 import com.bangkit.emergenz.data.response.RegisterResponse
+import com.bangkit.emergenz.util.extractErrorMessageFromJson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,7 +37,9 @@ class RegisterViewModel : ViewModel() {
                         _isFinished.value = true
                     }
                 } else {
-                    _toast.value = response.message()
+                    val errorBody = response.errorBody()?.string()
+                    val errorMessage = extractErrorMessageFromJson(errorBody)
+                    _toast.value = errorMessage
                 }
             }
 
