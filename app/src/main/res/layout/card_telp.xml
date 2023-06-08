@@ -52,7 +52,7 @@
             android:textSize="12sp"
             card_view:layout_constraintStart_toStartOf="@+id/tv_name_place"
             card_view:layout_constraintTop_toBottomOf="@+id/tv_name_place"
-            tools:text="(031) 144045" />
+            tools:text="(031) 144047" />
 
         <ImageButton
             android:id="@+id/iv_call"
