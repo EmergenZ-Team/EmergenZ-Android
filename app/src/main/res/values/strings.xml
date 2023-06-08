@@ -56,5 +56,11 @@
     <string name="field_empty">Not filled in</string>
     <string name="gender">Gender</string>
     <string name="province">Province</string>
+    <string name="city">City</string>
+    <string name="full_name">EmergenZ\'s Guest</string>
+    <string name="iv_identity_card_cd">Image Container for your ID</string>
+    <string name="full_name_field">Full Name</string>
+    <string name="id_card">Id Card</string>
+    <string name="img_lack">Upload your image first</string>
 
 </resources>
