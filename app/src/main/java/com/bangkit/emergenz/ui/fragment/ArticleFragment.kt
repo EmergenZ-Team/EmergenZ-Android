@@ -16,6 +16,7 @@ import com.bangkit.emergenz.data.repository.ArticleRepository
 import com.bangkit.emergenz.databinding.FragmentArticleBinding
 import com.bangkit.emergenz.ui.viewmodel.ArticleViewModel
 import com.bangkit.emergenz.ui.viewmodel.ArticleViewModelFactory
+import com.bangkit.emergenz.util.LastItemSpacingDecoration
 
 class ArticleFragment : Fragment() {
     private var _binding: FragmentArticleBinding? = null
@@ -60,6 +61,8 @@ class ArticleFragment : Fragment() {
             adapter.setData(newData)
             Log.d("Artikel", "$newData")
         }
+        val itemDecoration = LastItemSpacingDecoration(250)
+        recyclerView.addItemDecoration(itemDecoration)
     }
 
     override fun onDestroy() {
