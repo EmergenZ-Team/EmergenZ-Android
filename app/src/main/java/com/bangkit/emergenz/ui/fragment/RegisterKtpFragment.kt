@@ -28,6 +28,7 @@ import com.bangkit.emergenz.ui.viewmodel.ViewModelFactory
 import com.bangkit.emergenz.util.rotateFile
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
@@ -59,11 +60,13 @@ class RegisterKtpFragment : Fragment() {
             )
         }
 
+        showLoading(false)
+
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         uploadDetailViewModel = ViewModelProvider(requireActivity(), ViewModelFactory(pref))[UploadDetailViewModel::class.java]
 
-        uploadDetailViewModel.getEmail().observe(viewLifecycleOwner){
-            email = it
+        uploadDetailViewModel.getEmail().observe(viewLifecycleOwner){email ->
+            setEmail(email)
         }
 
         uploadDetailViewModel.isLoading.observe(viewLifecycleOwner){isLoading ->
@@ -83,6 +86,10 @@ class RegisterKtpFragment : Fragment() {
             btnCamera.setOnClickListener { startCameraX() }
             btnConfirm.setOnClickListener { uploadImage() }
         }
+    }
+
+    private fun setEmail(email: String?) {
+        binding.edEmail.setText(email ?: "ABSOLUTELY DOESN'T FUCKING WORK")
     }
 
     @Deprecated("Deprecated in Java")
@@ -114,13 +121,21 @@ class RegisterKtpFragment : Fragment() {
             val email = binding.edEmail.text.toString().toRequestBody("text/plain".toMediaType())
             val fullName = binding.edFullName.text.toString().toRequestBody("text/plain".toMediaType())
             val nik = binding.edNik.text.toString().toRequestBody("text/plain".toMediaType())
-            val gender = binding.edGender.text.toString().toRequestBody("text/plain".toMediaType())
+            var gender : RequestBody = "U".toRequestBody("text/plain".toMediaType())
+            when {
+                binding.rbMale.isChecked -> {
+                    gender = "M".toRequestBody("text/plain".toMediaType())
+                }
+                binding.rbFemale.isChecked -> {
+                    gender = "F".toRequestBody("text/plain".toMediaType())
+                }
+            }
             val province = binding.edProvince.text.toString().toRequestBody("text/plain".toMediaType())
             val city = binding.edCity.text.toString().toRequestBody("text/plain".toMediaType())
             val address = binding.edAddress.text.toString().toRequestBody("text/plain".toMediaType())
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaType())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-                "photo",
+                "image",
                 file.name,
                 requestImageFile,
             )
@@ -159,10 +174,10 @@ class RegisterKtpFragment : Fragment() {
 
     private fun showLoading(isLoading : Boolean){
         if(isLoading){
-            binding.progressBar2.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.VISIBLE
             binding.btnConfirm.isEnabled = false
         } else {
-            binding.progressBar2.visibility = View.GONE
+            binding.progressBar.visibility = View.GONE
             binding.btnConfirm.isEnabled = true
         }
     }

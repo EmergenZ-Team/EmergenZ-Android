@@ -22,7 +22,6 @@ import com.bangkit.emergenz.ui.viewmodel.ViewModelFactory
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "token")
 class ProfileFragment : Fragment() {
-    private var email : String? = null
     private var _binding : FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var profileViewModel : ProfileViewModel
@@ -44,17 +43,17 @@ class ProfileFragment : Fragment() {
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         profileViewModel = ViewModelProvider(requireActivity(), ViewModelFactory(pref))[ProfileViewModel::class.java]
 
-        profileViewModel.getEmail().observe(viewLifecycleOwner){
-            email = it
+        profileViewModel.getEmail().observe(viewLifecycleOwner){email ->
+            setEmail(email)
+            profileViewModel.getDetailIntent(email)
         }
-        email?.let { profileViewModel.getDetailIntent(it) }
 
         profileViewModel.isLoading.observe(viewLifecycleOwner){
             showLoading(it)
         }
 
-        profileViewModel.detailUser.observe(viewLifecycleOwner){
-            showDetailUser(it)
+        profileViewModel.detailUser.observe(viewLifecycleOwner){detailUser ->
+            showDetailUser(detailUser)
         }
 
         binding.btnIdRegister.setOnClickListener{
@@ -67,13 +66,15 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showDetailUser(detailUser: GetDetailResponse?) {
-        binding.apply {
-            tvFullName.text = detailUser?.data?.name
-            tvNipFilled.text = detailUser?.data?.nik
-            tvGenderFilled.text = detailUser?.data?.gender
-            tvProvinceFilled.text = detailUser?.data?.province
-            tvCity.text = detailUser?.data?.city
-            tvAddressFilled.text = detailUser?.data?.address
+        if (detailUser != null){
+            binding.apply {
+                tvFullName.text = detailUser.data?.name
+                tvNipFilled.text = detailUser.data?.nik
+                tvGenderFilled.text = detailUser.data?.gender
+                tvProvinceFilled.text = detailUser.data?.province
+                tvCityFilled.text = detailUser.data?.city
+                tvAddressFilled.text = detailUser.data?.address
+            }
         }
     }
 
@@ -108,6 +109,10 @@ class ProfileFragment : Fragment() {
                 progressBar.visibility = View.GONE
             }
         }
+    }
+
+    private fun setEmail(email: String?) {
+        binding.tvEmail.text = email
     }
 
     private fun logout() {

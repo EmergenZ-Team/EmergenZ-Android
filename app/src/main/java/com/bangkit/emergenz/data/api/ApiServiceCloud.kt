@@ -35,13 +35,13 @@ interface ApiServiceCloud {
     @POST("add_detail_user")
     fun updateDetailProfile(
         @Part("email") email: RequestBody,
-        @Part("full_name") fullName : RequestBody,
+        @Part("name") fullName : RequestBody,
         @Part("nik") nik : RequestBody,
         @Part("gender") gender : RequestBody,
         @Part("province") province : RequestBody,
         @Part("city") city : RequestBody,
         @Part("address") address : RequestBody,
-        @Part("image") image: MultipartBody.Part,
+        @Part image: MultipartBody.Part,
     ): Call<RegisterDetailResponse>
 
     @GET("user_data/{email}")

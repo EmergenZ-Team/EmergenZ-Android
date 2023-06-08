@@ -14,6 +14,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bangkit.emergenz.R
+import com.bangkit.emergenz.data.api.ApiConfigCloud
 import com.bangkit.emergenz.data.local.datastore.UserPreferences
 import com.bangkit.emergenz.databinding.ActivitySplashScreenBinding
 import com.bangkit.emergenz.ui.viewmodel.TokenViewModel
@@ -24,7 +25,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "token")
+private val Context.dataStore2: DataStore<Preferences> by preferencesDataStore(name = "token")
 @SuppressLint("CustomSplashScreen")
 class SplashScreen : AppCompatActivity() {
 
@@ -40,7 +41,7 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun startup() {
-        val pref = UserPreferences.getInstance(dataStore)
+        val pref = UserPreferences.getInstance(dataStore2)
         val tokenViewModel = ViewModelProvider(this, ViewModelFactory(pref))[TokenViewModel::class.java]
         tokenViewModel.getToken().observe(this){
             token = it
@@ -54,6 +55,7 @@ class SplashScreen : AppCompatActivity() {
         imgSplashScreen.alpha = 0f
         imgSplashScreen.animate().setDuration(STARTUP_TIME).alpha(1f).withEndAction {
             if(onSession) {
+                token.let { ApiConfigCloud.setToken(it) }
                 val moveToMainActivity = Intent(this@SplashScreen, MainActivity::class.java)
                 startActivity(moveToMainActivity)
             }
