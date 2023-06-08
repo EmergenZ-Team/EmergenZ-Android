@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.bangkit.emergenz.data.api.ApiConfigCloud
 import com.bangkit.emergenz.data.local.datastore.UserPreferences
 import com.bangkit.emergenz.data.response.LoginResponse
+import com.bangkit.emergenz.util.extractErrorMessageFromJson
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,7 +43,9 @@ class LoginViewModel(private val pref: UserPreferences) : ViewModel() {
                         _isFinished.value = true
                     }
                 } else {
-                    _toast.value = response.message()
+                    val errorBody = response.errorBody()?.string()
+                    val errorMessage = extractErrorMessageFromJson(errorBody)
+                    _toast.value = errorMessage
                 }
             }
 
