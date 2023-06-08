@@ -1,6 +1,7 @@
 package com.bangkit.emergenz.ui.fragment
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -12,17 +13,33 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.bangkit.emergenz.R
+import com.bangkit.emergenz.data.local.datastore.UserPreferences
 import com.bangkit.emergenz.databinding.FragmentRegisterKtpBinding
 import com.bangkit.emergenz.ui.activity.CameraActivity
+import com.bangkit.emergenz.ui.viewmodel.UploadDetailViewModel
+import com.bangkit.emergenz.ui.viewmodel.ViewModelFactory
 import com.bangkit.emergenz.util.rotateFile
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "token")
 class RegisterKtpFragment : Fragment() {
     private var _binding: FragmentRegisterKtpBinding? = null
     private val binding get() = _binding!!
     private var getFile: File? = null
+    private var email : String? = null
+    private lateinit var uploadDetailViewModel: UploadDetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,9 +60,37 @@ class RegisterKtpFragment : Fragment() {
             )
         }
 
-        binding.btnCamera.setOnClickListener { startCameraX() }
-        binding.btnConfirm.setOnClickListener { uploadImage() }
+        showLoading(false)
+
+        val pref = UserPreferences.getInstance(requireContext().dataStore)
+        uploadDetailViewModel = ViewModelProvider(requireActivity(), ViewModelFactory(pref))[UploadDetailViewModel::class.java]
+
+        uploadDetailViewModel.getEmail().observe(viewLifecycleOwner){email ->
+            setEmail(email)
         }
+
+        uploadDetailViewModel.isLoading.observe(viewLifecycleOwner){isLoading ->
+            showLoading(isLoading)
+        }
+
+        uploadDetailViewModel.toast.observe(viewLifecycleOwner){bungus ->
+            showToast(bungus)
+        }
+
+        uploadDetailViewModel.isFinished.observe(viewLifecycleOwner){
+            isFinishTime(it)
+        }
+
+        binding.apply {
+            edEmail.setText(email)
+            btnCamera.setOnClickListener { startCameraX() }
+            btnConfirm.setOnClickListener { uploadImage() }
+        }
+    }
+
+    private fun setEmail(email: String?) {
+        binding.edEmail.setText(email ?: "ABSOLUTELY DOESN'T FUCKING WORK")
+    }
 
     @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
@@ -71,7 +116,33 @@ class RegisterKtpFragment : Fragment() {
     }
 
     private fun uploadImage() {
-
+        if (getFile!= null){
+            val file = uploadDetailViewModel.reduceFileSize(getFile as File)
+            val email = binding.edEmail.text.toString().toRequestBody("text/plain".toMediaType())
+            val fullName = binding.edFullName.text.toString().toRequestBody("text/plain".toMediaType())
+            val nik = binding.edNik.text.toString().toRequestBody("text/plain".toMediaType())
+            var gender : RequestBody = "U".toRequestBody("text/plain".toMediaType())
+            when {
+                binding.rbMale.isChecked -> {
+                    gender = "M".toRequestBody("text/plain".toMediaType())
+                }
+                binding.rbFemale.isChecked -> {
+                    gender = "F".toRequestBody("text/plain".toMediaType())
+                }
+            }
+            val province = binding.edProvince.text.toString().toRequestBody("text/plain".toMediaType())
+            val city = binding.edCity.text.toString().toRequestBody("text/plain".toMediaType())
+            val address = binding.edAddress.text.toString().toRequestBody("text/plain".toMediaType())
+            val requestImageFile = file.asRequestBody("image/jpeg".toMediaType())
+            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                "image",
+                file.name,
+                requestImageFile,
+            )
+            uploadDetailViewModel.uploadStoryIntent(email, fullName, nik, gender, province, city, address, imageMultipart)
+        } else {
+            Toast.makeText(requireActivity(), getString(R.string.img_lack), Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun startCameraX() {
@@ -89,6 +160,25 @@ class RegisterKtpFragment : Fragment() {
             rotateFile(file, isBackCamera)
             getFile = myFile
             binding.ivIdentityCard.setImageBitmap(BitmapFactory.decodeFile(file.path))
+        }
+    }
+
+    private fun showToast(bungus: String) {
+        Toast.makeText(requireActivity(), bungus, Toast.LENGTH_SHORT).show()
+    }
+    private fun isFinishTime(isFinished: Boolean){
+        if(isFinished) {
+            view?.findNavController()?.navigate(R.id.action_registerKtpFragment_to_profileFragment)
+        }
+    }
+
+    private fun showLoading(isLoading : Boolean){
+        if(isLoading){
+            binding.progressBar.visibility = View.VISIBLE
+            binding.btnConfirm.isEnabled = false
+        } else {
+            binding.progressBar.visibility = View.GONE
+            binding.btnConfirm.isEnabled = true
         }
     }
 

@@ -14,6 +14,8 @@ class ViewModelFactory(private val pref: UserPreferences) : ViewModelProvider.Ne
             LoginViewModel(pref) as T
         }else if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
             ProfileViewModel(pref) as T
+        }else if (modelClass.isAssignableFrom(UploadDetailViewModel::class.java)) {
+            UploadDetailViewModel(pref) as T
         }else
             throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }

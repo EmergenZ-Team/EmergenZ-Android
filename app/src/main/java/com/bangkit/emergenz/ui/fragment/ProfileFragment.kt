@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.bangkit.emergenz.R
 import com.bangkit.emergenz.data.local.datastore.UserPreferences
+import com.bangkit.emergenz.data.response.GetDetailResponse
 import com.bangkit.emergenz.databinding.FragmentProfileBinding
 import com.bangkit.emergenz.ui.activity.AuthActivity
 import com.bangkit.emergenz.ui.viewmodel.ProfileViewModel
@@ -42,6 +43,19 @@ class ProfileFragment : Fragment() {
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         profileViewModel = ViewModelProvider(requireActivity(), ViewModelFactory(pref))[ProfileViewModel::class.java]
 
+        profileViewModel.getEmail().observe(viewLifecycleOwner){email ->
+            setEmail(email)
+            profileViewModel.getDetailIntent(email)
+        }
+
+        profileViewModel.isLoading.observe(viewLifecycleOwner){
+            showLoading(it)
+        }
+
+        profileViewModel.detailUser.observe(viewLifecycleOwner){detailUser ->
+            showDetailUser(detailUser)
+        }
+
         binding.btnIdRegister.setOnClickListener{
             view.findNavController().navigate(R.id.action_profileFragment_to_registerKtpFragment)
         }
@@ -49,6 +63,56 @@ class ProfileFragment : Fragment() {
         binding.btnLogout.setOnClickListener{
             logout()
         }
+    }
+
+    private fun showDetailUser(detailUser: GetDetailResponse?) {
+        if (detailUser != null){
+            binding.apply {
+                tvFullName.text = detailUser.data?.name
+                tvNipFilled.text = detailUser.data?.nik
+                tvGenderFilled.text = detailUser.data?.gender
+                tvProvinceFilled.text = detailUser.data?.province
+                tvCityFilled.text = detailUser.data?.city
+                tvAddressFilled.text = detailUser.data?.address
+            }
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean){
+        if (isLoading){
+            binding.apply {
+                tvNip.visibility = View.GONE
+                tvNipFilled.visibility = View.GONE
+                tvGender.visibility = View.GONE
+                tvGenderFilled.visibility = View.GONE
+                tvProvince.visibility = View.GONE
+                tvProvinceFilled.visibility = View.GONE
+                tvAddress.visibility = View.GONE
+                tvAddressFilled.visibility = View.GONE
+                tvCity.visibility = View.GONE
+                tvCityFilled.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+            }
+        }
+        else {
+            binding.apply {
+                tvNip.visibility = View.VISIBLE
+                tvNipFilled.visibility = View.VISIBLE
+                tvGender.visibility = View.VISIBLE
+                tvGenderFilled.visibility = View.VISIBLE
+                tvProvince.visibility = View.VISIBLE
+                tvProvinceFilled.visibility = View.VISIBLE
+                tvAddress.visibility = View.VISIBLE
+                tvAddressFilled.visibility = View.VISIBLE
+                tvCity.visibility = View.VISIBLE
+                tvCityFilled.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun setEmail(email: String?) {
+        binding.tvEmail.text = email
     }
 
     private fun logout() {
