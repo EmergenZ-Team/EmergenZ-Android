@@ -27,6 +27,7 @@ jobs:
          path: app/build/outputs/apk/debug/app-debug.apk
 
  release:
+   permissions: write-all
    name: Release APK
    needs: apk
    runs-on: ubuntu-latest
