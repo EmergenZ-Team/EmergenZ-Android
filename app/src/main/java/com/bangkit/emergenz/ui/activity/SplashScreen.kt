@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "token")
 @SuppressLint("CustomSplashScreen")
 class SplashScreen : AppCompatActivity() {
 
