@@ -34,11 +34,10 @@ class LoginViewModel(private val pref: UserPreferences) : ViewModel() {
                     if (responseBody != null){
                         val token = responseBody.data.token
                         val username = responseBody.data.name
-                        val id = responseBody.data.userId
                         _toast.value = responseBody.message
                         ApiConfigCloud.setToken(token)
                         saveToken(token)
-                        setUser(username, id)
+                        setUser(username, email)
                         setSession(true)
                         _isFinished.value = true
                     }
@@ -65,9 +64,10 @@ class LoginViewModel(private val pref: UserPreferences) : ViewModel() {
         }
     }
 
-    fun setUser(Username: String, Id: String) {
+    fun setUser(Username: String, Email : String) {
         viewModelScope.launch {
-            pref.setUser(Username, Id)
+            pref.setUser(Username)
+            pref.setEmail(Email)
         }
     }
 
