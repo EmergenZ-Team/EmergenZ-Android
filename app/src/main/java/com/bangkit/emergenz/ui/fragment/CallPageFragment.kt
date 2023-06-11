@@ -35,12 +35,14 @@ class CallPageFragment : BottomSheetDialogFragment() {
             R.drawable.ic_tab_police,
             R.drawable.ic_tab_hospital
         )
-        val sectionPagerAdapter = ViewPageAdapter(this)
         val viewPager: ViewPager2 = binding.viewPager2Call
+        val tabLayout: TabLayout = binding.tabLayoutCall
 
-        viewPager.adapter = sectionPagerAdapter
-        val tabs: TabLayout = binding.tabLayoutCall
-        TabLayoutMediator(tabs, viewPager) { tab, position ->
+        val tabAdapter = ViewPageAdapter(childFragmentManager, lifecycle)
+
+        viewPager.adapter = tabAdapter
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.setIcon(tabIcons[position])
         }.attach()
     }

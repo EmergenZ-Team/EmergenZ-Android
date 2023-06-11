@@ -27,10 +27,10 @@ class ContactAdapter(private val listContact: List<Contact>) :
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val contact = listContact[position]
         holder.binding.apply {
-            tvNamePlace.text = contact.name
-            tvNumberPhone.text = contact.number
-            ivCall.setOnClickListener{onItemClickCallback.onItemClicked(listContact[holder.adapterPosition])}
-            ivUserPhoto.setImageResource(R.drawable.ic_person)
+            tvNamePlace2.text = contact.name
+            tvNumberPhone2.text = contact.number
+            ivCall2.setOnClickListener{onItemClickCallback.onItemClicked(listContact[holder.bindingAdapterPosition])}
+            ivUserPhoto2.setImageResource(R.drawable.ic_person)
         }
     }
 

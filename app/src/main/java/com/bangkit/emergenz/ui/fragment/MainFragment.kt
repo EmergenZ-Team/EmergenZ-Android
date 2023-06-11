@@ -2,14 +2,12 @@ package com.bangkit.emergenz.ui.fragment
 
 
 import android.Manifest
-import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +17,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bangkit.emergenz.data.api.ApiConfig
+import com.bangkit.emergenz.data.repository.CallRepository
 import com.bangkit.emergenz.databinding.FragmentMainBinding
 import com.bangkit.emergenz.ui.activity.ProfileActivity
 import com.bangkit.emergenz.ui.activity.SettingsActivity
+import com.bangkit.emergenz.ui.viewmodel.CallViewModel
+import com.bangkit.emergenz.ui.viewmodel.CallViewModelFactory
 import com.bangkit.emergenz.ui.viewmodel.LocViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -36,6 +38,7 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var location: Location? = null
+    private lateinit var callViewModel: CallViewModel
     private lateinit var locViewModel: LocViewModel
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private var clickCount: Int = 0
@@ -55,6 +58,10 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val apiService = ApiConfig.getApiServiceCall()
+        val callRepository = CallRepository(apiService)
+        val callViewModelFactory = CallViewModelFactory(callRepository)
+        callViewModel = ViewModelProvider(requireActivity(), callViewModelFactory)[CallViewModel::class.java]
         locViewModel = ViewModelProvider(requireActivity())[LocViewModel::class.java]
         setToolbar()
         panicButton()
@@ -111,16 +118,9 @@ class MainFragment : Fragment() {
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                 if (location != null) {
                     this.location = location
-                    Log.d(
-                        ContentValues.TAG,
-                        "getLastLocation: ${location.latitude},${location.longitude}"
-                    )
+                    callViewModel.setDataUrgent()
                 } else {
                     Toast.makeText(activity, "Gagal mendapatkan lokasi.", Toast.LENGTH_SHORT).show()
-                    Log.d(
-                        ContentValues.TAG,
-                        "getLastLocation: ${location?.latitude}, ${location?.longitude}"
-                    )
                 }
             }
         }

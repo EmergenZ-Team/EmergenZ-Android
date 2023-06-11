@@ -17,6 +17,7 @@ import com.bangkit.emergenz.databinding.FragmentArticleBinding
 import com.bangkit.emergenz.ui.viewmodel.ArticleViewModel
 import com.bangkit.emergenz.ui.viewmodel.ArticleViewModelFactory
 import com.bangkit.emergenz.util.LastItemSpacingDecoration
+import com.bangkit.emergenz.util.animateVisibility
 
 class ArticleFragment : Fragment() {
     private var _binding: FragmentArticleBinding? = null
@@ -33,6 +34,7 @@ class ArticleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showLoading(true)
         val articleApiService = ApiConfig.getApiServiceArticle()
         val articleDao = ArticleDatabase.getInstance(requireContext()).articleDao()
         val articleRepository = ArticleRepository(articleApiService, articleDao)
@@ -60,9 +62,23 @@ class ArticleFragment : Fragment() {
         articleViewModel.cachedData.observe(viewLifecycleOwner) { newData ->
             adapter.setData(newData)
             Log.d("Artikel", "$newData")
+            showLoading(false)
         }
         val itemDecoration = LastItemSpacingDecoration(250)
         recyclerView.addItemDecoration(itemDecoration)
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.apply {
+            rvArticle.isEnabled = !isLoading
+
+            // Animate views alpha
+            if (isLoading) {
+                loadingBar2.animateVisibility(true)
+            } else {
+                loadingBar2.animateVisibility(false)
+            }
+        }
     }
 
     override fun onDestroy() {
