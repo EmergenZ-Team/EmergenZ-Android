@@ -27,7 +27,20 @@ jobs:
          path: app/build/outputs/apk/debug/app-debug.apk
 
  release:
-   permissions: write-all
+   permissions:
+    actions: write
+    checks: write
+    contents: write
+    deployments: write
+    discussions: write
+    issues: write
+    pages: read
+    packages: write
+    statuses: write
+    pull-requests: write
+    repository-projects: write
+    security-events: write
+    id-token: write
    name: Release APK
    needs: apk
    runs-on: ubuntu-latest
