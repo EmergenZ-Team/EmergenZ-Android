@@ -5,20 +5,28 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.bangkit.emergenz.data.local.model.CallUrgent
 import com.bangkit.emergenz.data.repository.CallRepository
 import com.bangkit.emergenz.data.response.call.Result
 import com.bangkit.emergenz.ui.fragment.RvCallFragment.Companion.FIRE
 import com.bangkit.emergenz.ui.fragment.RvCallFragment.Companion.HOSPITAL
 import com.bangkit.emergenz.ui.fragment.RvCallFragment.Companion.POLICE
+import com.bangkit.emergenz.util.LimitedSizeList
 import kotlinx.coroutines.launch
 
 class CallViewModel(private val callRepository: CallRepository) : ViewModel(){
 
-    private val uniquePlaceIds: MutableSet<String> = mutableSetOf()
-    private val listPlaceIds: MutableLiveData<List<String>> = MutableLiveData()
+    private val uniquePlaceIdsF: LimitedSizeList<String> = LimitedSizeList(2)
+    private val listPlaceIdsF: MutableLiveData<List<String>> = MutableLiveData()
+    private val uniquePlaceIdsP: LimitedSizeList<String> = LimitedSizeList(2)
+    private val listPlaceIdsP: MutableLiveData<List<String>> = MutableLiveData()
+    private val uniquePlaceIdsH: LimitedSizeList<String> = LimitedSizeList(2)
+    private val listPlaceIdsH: MutableLiveData<List<String>> = MutableLiveData()
 
     init {
-        listPlaceIds.value = uniquePlaceIds.toList()
+        listPlaceIdsF.value = uniquePlaceIdsF.toList()
+        listPlaceIdsP.value = uniquePlaceIdsP.toList()
+        listPlaceIdsH.value = uniquePlaceIdsH.toList()
     }
 
     private val _dataPolice: MutableSet<Result> = mutableSetOf()
@@ -48,26 +56,68 @@ class CallViewModel(private val callRepository: CallRepository) : ViewModel(){
         }
     }
 
-    fun getListPlaceIds(): LiveData<List<String>> {
-        return listPlaceIds
-    }
+    val dataUrgentPolice: MutableLiveData<List<CallUrgent>> = MutableLiveData()
+    val dataUrgentFire: MutableLiveData<List<CallUrgent>> = MutableLiveData()
+    val dataUrgentHospital: MutableLiveData<List<CallUrgent>> = MutableLiveData()
 
-    private fun addPlaceId(placeId: String) {
-        if (uniquePlaceIds.add(placeId)) {
-            listPlaceIds.value = uniquePlaceIds.toList()
+    fun setDataUrgent() {
+        viewModelScope.launch {
+            dataUrgentPolice.value = callRepository.fetchCallUrgent(POLICE)
+            dataUrgentHospital.value = callRepository.fetchCallUrgent(HOSPITAL)
+            dataUrgentFire.value = callRepository.fetchCallUrgent(FIRE)
         }
     }
 
-    fun getPlaceId(input: String, locationbias: String) {
+    fun getListPlaceIdsF(): LiveData<List<String>> {
+        return listPlaceIdsF
+    }
+
+    private fun addPlaceIdF(placeId: String) {
+        if (uniquePlaceIdsF.add(placeId)) {
+            listPlaceIdsF.value = uniquePlaceIdsF.toList()
+        }
+    }
+
+    fun getListPlaceIdsP(): LiveData<List<String>> {
+        return listPlaceIdsP
+    }
+
+    private fun addPlaceIdP(placeId: String) {
+        if (uniquePlaceIdsP.add(placeId)) {
+            listPlaceIdsP.value = uniquePlaceIdsP.toList()
+        }
+    }
+
+    fun getListPlaceIdsH(): LiveData<List<String>> {
+        return listPlaceIdsH
+    }
+
+    private fun addPlaceIdH(placeId: String) {
+        if (uniquePlaceIdsH.add(placeId)) {
+            listPlaceIdsH.value = uniquePlaceIdsH.toList()
+        }
+    }
+
+    fun getPlaceId(query: String, locationbias: String) {
         viewModelScope.launch {
-            val response = callRepository.fetchPlaceId(input, locationbias)
+            val response = callRepository.fetchPlaceId(query, locationbias)
             if (response.isSuccessful) {
                 val placesResponse = response.body()
                 val results = placesResponse?.candidates
                 if (results != null) {
                     for (place in results) {
                         if (place != null) {
-                            addPlaceId(place.placeId!!)
+                            when (query) {
+                                POLICE -> (
+                                        addPlaceIdP(place.placeId!!)
+                                        )
+                                FIRE -> (
+                                        addPlaceIdF(place.placeId!!)
+                                        )
+                                HOSPITAL -> (
+                                        addPlaceIdH(place.placeId!!)
+                                        )
+                            }
                         }
                     }
                 }
@@ -117,7 +167,17 @@ class CallViewModel(private val callRepository: CallRepository) : ViewModel(){
                 if (results != null) {
                     for (place in results) {
                         if (place != null) {
-                            addPlaceId(place.placeId!!)
+                            when (query) {
+                                POLICE -> (
+                                        addPlaceIdP(place.placeId!!)
+                                        )
+                                FIRE -> (
+                                        addPlaceIdF(place.placeId!!)
+                                        )
+                                HOSPITAL -> (
+                                        addPlaceIdH(place.placeId!!)
+                                        )
+                            }
                         }
                     }
                 }
