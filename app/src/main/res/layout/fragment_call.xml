@@ -34,7 +34,7 @@
             android:id="@+id/view_pager2_call"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="200dp" />
+            android:minHeight="500dp" />
     </LinearLayout>
 
 </LinearLayout>

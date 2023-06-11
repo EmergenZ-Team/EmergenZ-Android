@@ -74,4 +74,5 @@
     <string name="about_title">Versi</string>
     <string name="rb_male">Male</string>
     <string name="rb_female">Female</string>
+    <string name="note_card_urgent">*Hanya dapat di gunakan di beberapa kota</string>
 </resources>

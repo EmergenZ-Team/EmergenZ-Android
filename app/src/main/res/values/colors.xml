@@ -9,4 +9,5 @@
     <color name="bar_color">#fff2ecf6</color>
     <color name="bg_light">#B7ECEAEA</color>
     <color name="bg_dark">#B73E3B3B</color>
+    <color name="transparent">#B4595959</color>
 </resources>
