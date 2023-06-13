@@ -11,17 +11,25 @@ import com.bangkit.emergenz.data.response.article.DataRecord
 import com.bangkit.emergenz.databinding.ActivityViewArticleBinding
 import com.bangkit.emergenz.ui.viewmodel.ArticleViewModel
 import com.bangkit.emergenz.ui.viewmodel.ArticleViewModelFactory
+import com.bangkit.emergenz.util.animateVisibility
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class ViewArticleActivity : AppCompatActivity() {
     private var _binding: ActivityViewArticleBinding? = null
     private val binding get() = _binding!!
     private lateinit var articleViewModel: ArticleViewModel
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityViewArticleBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        showLoading(true)
+
         val email = intent.extras?.getString(EMAIL_KEY)
         val newsId = intent.extras?.getString(ID_KEY)
         val apiService = ApiConfigCloud.getApiService()
@@ -31,7 +39,11 @@ class ViewArticleActivity : AppCompatActivity() {
         articleViewModel = ViewModelProvider(this, articleViewModelFactory)[ArticleViewModel::class.java]
         articleViewModel.fetchDetail(newsId!!)
         articleViewModel.detailData.observe(this){detail->
-            getDetail(detail)
+            coroutineScope.launch {
+                delay(500)
+                getDetail(detail)
+                showLoading(false)
+            }
         }
     }
 
@@ -45,6 +57,19 @@ class ViewArticleActivity : AppCompatActivity() {
             tvDetailName.text = detailItem.title
             tvDetailDescription.text = reDesc.replace(detailItem.content, "\n\n")
             tvDetailDate.text = detailItem.let { reDate.replace(it.uploadDate,"") }
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.apply {
+            ivDetailPhoto.isEnabled = !isLoading
+
+            // Animate views alpha
+            if (isLoading) {
+                loadingBar5.animateVisibility(true)
+            } else {
+                loadingBar5.animateVisibility(false)
+            }
         }
     }
 

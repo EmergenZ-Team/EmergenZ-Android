@@ -12,4 +12,5 @@
     <color name="transparent">#B4595959</color>
     <color name="bg_card">#F0F0F0</color>
     <color name="icon">#606060</color>
+    <color name="bar_bottom">#2D2D2D</color>
 </resources>
