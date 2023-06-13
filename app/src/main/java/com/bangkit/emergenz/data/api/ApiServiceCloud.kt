@@ -4,9 +4,12 @@ import com.bangkit.emergenz.data.response.GetDetailResponse
 import com.bangkit.emergenz.data.response.LoginResponse
 import com.bangkit.emergenz.data.response.RegisterDetailResponse
 import com.bangkit.emergenz.data.response.RegisterResponse
+import com.bangkit.emergenz.data.response.article.AddRecordResponse
+import com.bangkit.emergenz.data.response.article.RecomNewsResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -48,4 +51,16 @@ interface ApiServiceCloud {
     fun getDetailUser(
         @Path("email") email : String
     ) : Call<GetDetailResponse>
+
+    @GET("news/{email}")
+    suspend fun findArticle(
+        @Path("email") email : String
+    ): Response<RecomNewsResponse>
+
+    @FormUrlEncoded
+    @POST("news/{news_id}")
+    suspend fun getDetailArticle(
+        @Path("news_id") news_id : String,
+        @Field("email") email: String
+    ) : Response<AddRecordResponse>
 }

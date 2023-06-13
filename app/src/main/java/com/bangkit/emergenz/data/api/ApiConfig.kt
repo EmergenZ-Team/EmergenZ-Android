@@ -24,22 +24,5 @@ class ApiConfig {
                 .build()
             return retrofit.create(CallApiService::class.java)
         }
-
-        fun getApiServiceArticle(): ArticleApiService {
-            val loggingInterceptor = if (BuildConfig.DEBUG) {
-                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-            } else {
-                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
-            }
-            val client = OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .build()
-            val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.spaceflightnewsapi.net/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build()
-            return retrofit.create(ArticleApiService::class.java)
-        }
     }
 }
