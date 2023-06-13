@@ -12,11 +12,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bangkit.emergenz.R
 import com.bangkit.emergenz.data.api.ApiConfig
 import com.bangkit.emergenz.data.repository.CallRepository
 import com.bangkit.emergenz.databinding.FragmentMainBinding
@@ -46,6 +48,11 @@ class MainFragment : Fragment() {
     private val doubleClickRunnable = Runnable {
         clickCount = 0
     }
+    private var backCount: Int = 0
+    private var backPressHandler: Handler? = null
+    private val backPressRunnable = Runnable {
+        backCount = 0
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,11 +68,31 @@ class MainFragment : Fragment() {
         val apiService = ApiConfig.getApiServiceCall()
         val callRepository = CallRepository(apiService)
         val callViewModelFactory = CallViewModelFactory(callRepository)
+        val backPressCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                backPressModifier()
+            }
+        }
         callViewModel = ViewModelProvider(requireActivity(), callViewModelFactory)[CallViewModel::class.java]
         locViewModel = ViewModelProvider(requireActivity())[LocViewModel::class.java]
         setToolbar()
         panicButton()
         topNavMenu()
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backPressCallback)
+    }
+
+    private fun backPressModifier(){
+        backCount++
+        when (backCount) {
+            1 -> {
+                backPressHandler = Handler(Looper.getMainLooper())
+                Toast.makeText(requireActivity(), getString(R.string.exit),Toast.LENGTH_SHORT).show()
+                backPressHandler?.postDelayed(backPressRunnable, 1000)
+            }
+            2 -> {
+                requireActivity().finishAffinity()
+            }
+        }
     }
 
     private fun setToolbar(){
