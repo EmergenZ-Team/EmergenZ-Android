@@ -7,7 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.bangkit.emergenz.R
 import com.bangkit.emergenz.databinding.ActivityMainBinding
 
@@ -16,36 +17,57 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+        navController = navHostFragment.navController
+
         setBottomNavigation()
     }
 
-    private fun setBottomNavigation(){
+    private fun setBottomNavigation() {
         binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.action_home -> findNavController(R.id.nav_host_fragment_content_main).popBackStack(
-                    R.id.mainFragment, false)
-                R.id.action_contact ->
+                R.id.action_home -> {
+                    navController.popBackStack(R.id.mainFragment, false)
+                    true
+                }
+                R.id.action_contact -> {
                     if (!allPermissionsGranted()) {
                         ActivityCompat.requestPermissions(
                             this,
                             REQUIRED_PERMISSIONS,
                             REQUEST_CODE_PERMISSIONS
                         )
-                        findNavController(R.id.nav_host_fragment_content_main).popBackStack(
-                            R.id.mainFragment, false)
+                        navController.popBackStack(R.id.mainFragment, false)
                     } else {
-                        findNavController(R.id.nav_host_fragment_content_main).navigate(
-                            R.id.contactFragment)
+                        navController.navigate(R.id.contactFragment)
                     }
-                R.id.action_article -> findNavController(R.id.nav_host_fragment_content_main).navigate(
-                    R.id.articleFragment
-                )
+                    true
+                }
+                R.id.action_article -> {
+                    navController.navigate(R.id.articleFragment)
+                    true
+                }
+                else -> false
             }
-            true
+        }
+    }
+
+    override fun onBackPressed() {
+        val currentDestination = navController.currentDestination?.id
+        val homeFragmentId = R.id.mainFragment
+
+        if (currentDestination == homeFragmentId) {
+            super.onBackPressed()
+        } else {
+            navController.popBackStack(homeFragmentId, false)
+            binding.bottomNav.selectedItemId = R.id.action_home
         }
     }
 
@@ -74,5 +96,4 @@ class MainActivity : AppCompatActivity() {
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE)
         private const val REQUEST_CODE_PERMISSIONS = 10
     }
-
 }
