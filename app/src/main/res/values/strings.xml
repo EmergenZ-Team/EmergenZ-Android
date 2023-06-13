@@ -21,6 +21,10 @@
     <string name="panic_button_desc">Panic Button</string>
     <string name="panic_button_label">Klik cepat 3 kali untuk mencari nomor telepon darurat terdekat</string>
     <string name="title_activity_settings">Setelan</string>
+    <string name="story_image">Story Image</string>
+    <string name="date">Date</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
 
     <!-- Login & Register -->
     <string name="pw_warning">Password must at least contains 8 characters!</string>
