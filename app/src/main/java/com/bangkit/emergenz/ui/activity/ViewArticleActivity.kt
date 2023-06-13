@@ -36,13 +36,14 @@ class ViewArticleActivity : AppCompatActivity() {
     }
 
     private fun getDetail(detailItem: DataRecord) {
+        val reDesc = Regex(";")
         val reDate = Regex("(T|\\s)(([0-1][0-9])|(2[0-3])):([0-5][0-9]):([0-5][0-9])(.*)")
         binding.apply {
             Glide.with(this@ViewArticleActivity)
                 .load(detailItem.image)
                 .into(ivDetailPhoto)
             tvDetailName.text = detailItem.title
-            tvDetailDescription.text = detailItem.content
+            tvDetailDescription.text = reDesc.replace(detailItem.content, "\n\n")
             tvDetailDate.text = detailItem.let { reDate.replace(it.uploadDate,"") }
         }
     }
