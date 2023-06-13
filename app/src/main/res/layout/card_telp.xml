@@ -54,13 +54,12 @@
             card_view:layout_constraintTop_toBottomOf="@+id/tv_name_place2"
             tools:text="(031) 144047" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/iv_call2"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:contentDescription="@string/icon_call"
             android:scaleType="centerCrop"
-            android:background="@color/white"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"

@@ -79,4 +79,5 @@
     <string name="rb_male">Male</string>
     <string name="rb_female">Female</string>
     <string name="note_card_urgent">*Hanya dapat di gunakan di beberapa kota</string>
+    <string name="exit">Press again to exit</string>
 </resources>
