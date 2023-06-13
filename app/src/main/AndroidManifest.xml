@@ -26,10 +26,13 @@
         android:theme="@style/Theme.EmergenZ"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.ViewArticleActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.SettingsActivity"
             android:exported="false"
-            android:theme="@style/Base.Theme.EmergenZ.Appbar"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"
+            android:theme="@style/Base.Theme.EmergenZ.Appbar" />
         <activity
             android:name=".ui.activity.SplashScreen"
             android:exported="true">
@@ -52,8 +55,7 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true"
-            android:theme="@style/Base.Theme.EmergenZ.Appbar"/>
-      
+            android:theme="@style/Base.Theme.EmergenZ.Appbar" />
     </application>
 
 </manifest>
