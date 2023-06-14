@@ -7,4 +7,11 @@
         <item name="android:statusBarColor">@color/status_bar_color</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
+
+    <style name="Theme.EmergenZ" parent="Base.Theme.EmergenZ">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="android:statusBarColor">@color/status_bar_color</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 </resources>
