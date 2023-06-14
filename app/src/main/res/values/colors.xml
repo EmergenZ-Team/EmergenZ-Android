@@ -5,6 +5,7 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#FF0000</color>
     <color name="blue_link">#57B1FF</color>
     <color name="bar_color">#fff2ecf6</color>
     <color name="bg_overlay">#B7ECEAEA</color>
@@ -12,4 +13,6 @@
     <color name="transparent">#B4595959</color>
     <color name="bg_card">#F0F0F0</color>
     <color name="icon">#606060</color>
+    <color name="bar_bottom">#2D2D2D</color>
+    <color name="status_bar_color">#FBEDED</color>
 </resources>

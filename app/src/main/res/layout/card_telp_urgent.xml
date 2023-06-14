@@ -70,7 +70,6 @@
             android:id="@+id/iv_call"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@color/white"
             android:contentDescription="@string/icon_call"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_call"
