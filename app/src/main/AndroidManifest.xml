@@ -27,16 +27,22 @@
         tools:targetApi="31">
         <activity
             android:name=".ui.activity.ViewArticleActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
-            android:theme="@style/Base.Theme.EmergenZ.Appbar" />
+            android:theme="@style/Base.Theme.EmergenZ.Appbar"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.activity.SettingsActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
             android:label="@string/title_activity_settings"
-            android:theme="@style/Base.Theme.EmergenZ.Appbar" />
+            android:theme="@style/Base.Theme.EmergenZ.Appbar"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.activity.SplashScreen"
-            android:exported="true">
+            android:screenOrientation="portrait"
+            android:exported="true"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,18 +51,26 @@
         </activity>
         <activity
             android:name=".ui.activity.CameraActivity"
-            android:exported="false" />
+            android:screenOrientation="portrait"
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.activity.ProfileActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
-            android:theme="@style/Base.Theme.EmergenZ.Appbar" />
+            android:theme="@style/Base.Theme.EmergenZ.Appbar"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.activity.AuthActivity"
-            android:exported="false" />
+            android:screenOrientation="portrait"
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.activity.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/Base.Theme.EmergenZ.Appbar" />
+            android:theme="@style/Base.Theme.EmergenZ.Appbar"
+            tools:ignore="LockedOrientationActivity" />
     </application>
 
 </manifest>

@@ -13,6 +13,8 @@ import com.bangkit.emergenz.R
 
 class PasswordEditText : AppCompatEditText{
     private lateinit var warningButtonImage: Drawable
+    private lateinit var borderRed: Drawable
+    private lateinit var borderBlack: Drawable
     constructor(context : Context) : super(context){
         init()
     }
@@ -26,11 +28,12 @@ class PasswordEditText : AppCompatEditText{
     }
 
     private fun init() {
+        setupBorder()
         warningButtonImage = ContextCompat.getDrawable(context, R.drawable.baseline_warning_amber_24) as Drawable
 
         addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
+                background = borderBlack
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -43,14 +46,21 @@ class PasswordEditText : AppCompatEditText{
         })
     }
 
+    private fun setupBorder(){
+        borderRed =  ContextCompat.getDrawable(context, R.drawable.border_red) as Drawable
+        borderBlack =  ContextCompat.getDrawable(context, R.drawable.border_black) as Drawable
+    }
+
     private fun showWarningInvalid() {
         setButtonDrawables(endOfText = warningButtonImage)
         setError(context.getString(R.string.pw_warning), null)
+        background = borderRed
     }
 
     private fun showWarningEmpty() {
         setButtonDrawables(endOfText = warningButtonImage)
         setError(context.getString(R.string.pw_empty), null)
+        background = borderRed
     }
 
     private fun hideWarning() {

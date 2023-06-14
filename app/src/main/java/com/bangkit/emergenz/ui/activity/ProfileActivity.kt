@@ -1,8 +1,8 @@
 package com.bangkit.emergenz.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.bangkit.emergenz.R
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.bangkit.emergenz.databinding.ActivityProfileBinding
 
 class ProfileActivity : AppCompatActivity() {
@@ -11,5 +11,18 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Profil"
+    }
+
+    @Suppress("DEPRECATION")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

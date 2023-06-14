@@ -3,6 +3,7 @@ package com.bangkit.emergenz.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.emergenz.data.api.ApiConfigCloud
@@ -13,21 +14,18 @@ import com.bangkit.emergenz.ui.viewmodel.ArticleViewModel
 import com.bangkit.emergenz.ui.viewmodel.ArticleViewModelFactory
 import com.bangkit.emergenz.util.animateVisibility
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class ViewArticleActivity : AppCompatActivity() {
     private var _binding: ActivityViewArticleBinding? = null
     private val binding get() = _binding!!
     private lateinit var articleViewModel: ArticleViewModel
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityViewArticleBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Artikel"
         showLoading(true)
 
         val email = intent.extras?.getString(EMAIL_KEY)
@@ -38,12 +36,23 @@ class ViewArticleActivity : AppCompatActivity() {
 
         articleViewModel = ViewModelProvider(this, articleViewModelFactory)[ArticleViewModel::class.java]
         articleViewModel.fetchDetail(newsId!!)
+        articleViewModel.isLoading.observe(this){load->
+            showLoading(load)
+        }
         articleViewModel.detailData.observe(this){detail->
-            coroutineScope.launch {
-                delay(500)
-                getDetail(detail)
-                showLoading(false)
+            supportActionBar?.title = detail.title
+            getDetail(detail)
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
             }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

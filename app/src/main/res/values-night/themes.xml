@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.EmergenZ" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
@@ -8,10 +8,12 @@
     <style name="Base.Theme.EmergenZ.Appbar" parent="Theme.Material3.DayNight">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="android:statusBarColor">@color/status_bar_color</item>
     </style>
 
     <style name="Theme.EmergenZ" parent="Base.Theme.EmergenZ" >
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="android:statusBarColor">@color/status_bar_color</item>
     </style>
 </resources>

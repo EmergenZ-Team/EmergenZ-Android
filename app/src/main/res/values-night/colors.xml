@@ -3,7 +3,7 @@
     <color name="colorPrimary">#FD8464</color>
     <color name="colorSecondary">#FFC168</color>
 
-    <color name="black">#FF000000</color>
+    <color name="black">#FFFFFF</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue_link">#57B1FF</color>
     <color name="bar_color">#fff2ecf6</color>
@@ -13,4 +13,5 @@
     <color name="bg_card">#505050</color>
     <color name="icon">#EBEBEB</color>
     <color name="bar_bottom">#AFAFAF</color>
+    <color name="status_bar_color">#2E2325</color>
 </resources>
