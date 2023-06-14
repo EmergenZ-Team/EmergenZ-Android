@@ -16,11 +16,11 @@ import kotlinx.coroutines.launch
 
 class CallViewModel(private val callRepository: CallRepository) : ViewModel(){
 
-    private val uniquePlaceIdsF: LimitedSizeList<String> = LimitedSizeList(2)
+    private val uniquePlaceIdsF: LimitedSizeList<String> = LimitedSizeList(7)
     private val listPlaceIdsF: MutableLiveData<List<String>> = MutableLiveData()
-    private val uniquePlaceIdsP: LimitedSizeList<String> = LimitedSizeList(2)
+    private val uniquePlaceIdsP: LimitedSizeList<String> = LimitedSizeList(7)
     private val listPlaceIdsP: MutableLiveData<List<String>> = MutableLiveData()
-    private val uniquePlaceIdsH: LimitedSizeList<String> = LimitedSizeList(2)
+    private val uniquePlaceIdsH: LimitedSizeList<String> = LimitedSizeList(7)
     private val listPlaceIdsH: MutableLiveData<List<String>> = MutableLiveData()
 
     init {
