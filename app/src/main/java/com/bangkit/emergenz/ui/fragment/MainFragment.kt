@@ -76,6 +76,7 @@ class MainFragment : Fragment() {
         callViewModel = ViewModelProvider(requireActivity(), callViewModelFactory)[CallViewModel::class.java]
         locViewModel = ViewModelProvider(requireActivity())[LocViewModel::class.java]
         setToolbar()
+        checkLocationPermission()
         panicButton()
         topNavMenu()
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backPressCallback)
