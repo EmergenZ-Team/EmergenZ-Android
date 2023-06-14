@@ -1,5 +1,6 @@
 package com.bangkit.emergenz.ui.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +13,9 @@ import kotlinx.coroutines.launch
 class ArticleViewModel(private val articleRepository: ArticleRepository) : ViewModel() {
     private val _cachedData : MutableSet<DataRecom> = mutableSetOf()
     val cachedData: MutableLiveData<List<DataRecom>> = MutableLiveData()
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
 
     private val _detailData = MutableLiveData<DataRecord>()
     val detailData: MutableLiveData<DataRecord> = _detailData
@@ -27,6 +31,7 @@ class ArticleViewModel(private val articleRepository: ArticleRepository) : ViewM
             viewModelScope.launch {
                 val response = articleRepository.fetchDataAndCache()
                 if (response.isSuccessful) {
+                    _isLoading.value = false
                     val articleResponse = response.body()
                     val results = articleResponse?.data
                     if (results != null) {
@@ -35,7 +40,7 @@ class ArticleViewModel(private val articleRepository: ArticleRepository) : ViewM
                         }
                     }
                 } else {
-                    // Handle the error
+                    _isLoading.value = false
                 }
             }
         }
@@ -46,6 +51,7 @@ class ArticleViewModel(private val articleRepository: ArticleRepository) : ViewM
             viewModelScope.launch {
                 val response = articleRepository.fetchDetail(news_id)
                 if (response.isSuccessful) {
+                    _isLoading.value = false
                     val articleResponse = response.body()
                     val results = articleResponse?.data
                     if (results != null) {
@@ -54,7 +60,7 @@ class ArticleViewModel(private val articleRepository: ArticleRepository) : ViewM
                         }
                     }
                 } else {
-                    // Handle the error
+                    _isLoading.value = false
                 }
             }
         }

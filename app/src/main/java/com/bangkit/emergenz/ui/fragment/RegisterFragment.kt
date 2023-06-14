@@ -1,11 +1,14 @@
 package com.bangkit.emergenz.ui.fragment
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -30,7 +33,7 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        playAnimation()
         registerViewModel = ViewModelProvider(requireActivity(), ViewModelProvider.NewInstanceFactory())[RegisterViewModel::class.java]
 
         registerViewModel.isLoading.observe(viewLifecycleOwner){
@@ -86,10 +89,12 @@ class RegisterFragment : Fragment() {
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
             binding.progressBarRegister.visibility = View.VISIBLE
+            binding.imageView.visibility = View.INVISIBLE
             binding.btnRegister.isEnabled = false
             binding.tvLoginNow.isEnabled = false
         } else {
             binding.progressBarRegister.visibility = View.GONE
+            binding.imageView.visibility = View.VISIBLE
             binding.btnRegister.isEnabled = true
             binding.tvLoginNow.isEnabled = true
         }
@@ -111,6 +116,49 @@ class RegisterFragment : Fragment() {
 
     private fun showToast(bungus: String?) {
         Toast.makeText(requireActivity(), bungus, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun playAnimation() {
+        val logoImageView = binding.imageView
+        // Get the center X position of the screen
+        val centerX = resources.displayMetrics.widthPixels / 2
+
+        // Calculate the translation X values
+        val startTranslationX = -centerX + logoImageView.width.toFloat() / 2
+        val endTranslationX = -logoImageView.width.toFloat()
+
+        // Animation duration in milliseconds
+        val animationDuration = 800L
+
+        // Set the initial position
+        logoImageView.translationX = startTranslationX
+
+        // Start the animation
+        logoImageView.animate()
+            .translationX(endTranslationX)
+            .setDuration(animationDuration)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .start()
+
+        val descTextVIew = ObjectAnimator.ofFloat(binding.tvEmail, View.ALPHA, 1f).setDuration(500)
+        val tvPassword = ObjectAnimator.ofFloat(binding.tvPassword, View.ALPHA, 1f).setDuration(500)
+        val tvUsername = ObjectAnimator.ofFloat(binding.tvUsername, View.ALPHA, 1f).setDuration(500)
+        val tvLogin = ObjectAnimator.ofFloat(binding.tvLoginNow, View.ALPHA, 1f).setDuration(500)
+
+        val etEmail = ObjectAnimator.ofFloat(binding.edRegisterEmail, View.ALPHA, 1f).setDuration(500)
+        val etPwd = ObjectAnimator.ofFloat(binding.edRegisterPassword, View.ALPHA, 1f).setDuration(500)
+        val etUsername = ObjectAnimator.ofFloat(binding.edRegisterUsername, View.ALPHA, 1f).setDuration(500)
+
+        val btnLogin = ObjectAnimator.ofFloat(binding.btnRegister, View.ALPHA, 1f).setDuration(500)
+
+        val togetherBtn = AnimatorSet().apply {
+            playTogether(btnLogin,tvPassword,tvUsername,descTextVIew,tvLogin)
+        }
+        AnimatorSet().apply {
+            playSequentially(togetherBtn,etUsername,etEmail,etPwd)
+            start()
+        }
+
     }
 
     override fun onDestroyView() {

@@ -19,6 +19,7 @@ import com.bangkit.emergenz.R
 import com.bangkit.emergenz.adapter.ContactAdapter
 import com.bangkit.emergenz.data.local.model.Contact
 import com.bangkit.emergenz.databinding.FragmentContactBinding
+import com.bangkit.emergenz.util.LastItemSpacingDecoration
 
 class ContactFragment : Fragment(){
 
@@ -80,6 +81,8 @@ class ContactFragment : Fragment(){
             rvContact.layoutManager = layoutManager
             rvContact.adapter = adapter
         }
+        val itemDecoration = LastItemSpacingDecoration(290)
+        binding.rvContact.addItemDecoration(itemDecoration)
 
         adapter.setOnItemClickCallback(object: ContactAdapter.OnItemClickCallback{
             override fun onItemClicked(data: Contact) {
