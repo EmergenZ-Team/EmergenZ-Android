@@ -2,28 +2,27 @@
 
     <!-- High Ground -->
     <string name="app_name">EmergenZ</string>
-    <string name="icon_call">Panggil</string>
-    <string name="icon_telp_card">Ikon Darurat</string>
-    <string name="icon_article_card">Ikon Artikel</string>
-    <string name="icon_bar">Icon bar</string>
+    <string name="icon_call">Call</string>
+    <string name="icon_telp_card">Emergency Icon</string>
+    <string name="icon_article_card">Article Icon</string>
+    <string name="icon_bar">Icon Bar</string>
     <string name="label_call">Home</string>
     <string name="label_contact">Contact</string>
     <string name="label_article">Article</string>
     <string name="fragment_contact">Fragment Contact</string>
     <string name="fragment_article">Fragment Article</string>
-    <string name="message_alert">Yakin ingin memanggil?</string>
-    <string name="btn_yes">Ya</string>
-    <string name="btn_no">Tidak</string>
-    <string name="test_popup">Test Popup</string>
-    <string name="logo_splashscreen">Logo Splashscreen</string>
+    <string name="message_alert">Are you sure you want to call this number?</string>
+    <string name="btn_yes">Yes</string>
+    <string name="btn_no">No</string>
+    <string name="logo_splashscreen">Splashscreen Logo</string>
     <string name="panic_button_desc">Panic Button</string>
-    <string name="panic_button_label">Klik cepat 3 kali untuk mencari nomor telepon darurat terdekat</string>
-    <string name="title_activity_settings">Setelan</string>
-    <string name="story_image">Story Image</string>
+    <string name="panic_button_label">Press 3 times to search the nearest emergency number</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="id_image">Identification Card Picture</string>
     <string name="date">Date</string>
     <string name="name">Name</string>
     <string name="description">Description</string>
-    <string name="confirm">Konfirmasi</string>
+    <string name="confirm">Confirm</string>
 
     <!-- Login & Register -->
     <string name="pw_warning">Password must at least contains 8 characters!</string>
@@ -36,7 +35,7 @@
     <string name="login">Login</string>
     <string name="register_now_text">Not a member? Register here!</string>
     <string name="login_now_text">Already a member? Login here!</string>
-    <string name="logo_description">StoryApp\'s Logo</string>
+    <string name="logo_description">EmergenZ\'s Logo</string>
     <string name="username">Username</string>
     <string name="register">Register</string>
     <string name="username_hint">Enter your username</string>
@@ -63,21 +62,22 @@
     <string name="province">Province</string>
     <string name="city">City</string>
     <string name="full_name">EmergenZ\'s Guest</string>
-    <string name="iv_identity_card_cd">Image Container for your ID</string>
+    <string name="iv_identity_card_cd">Image Container for your ID Card</string>
     <string name="full_name_field">Full Name</string>
     <string name="id_card">Id Card</string>
     <string name="img_lack">Upload your image first</string>
 
     <!-- Preference Titles -->
-    <string name="general_header">Umum</string>
-    <string name="about_header">Tentang</string>
+    <string name="general_header">General</string>
+    <string name="about_header">About</string>
 
     <!-- Messages Preferences -->
-    <string name="reply_title">Tema</string>
-    <string name="about_title">Versi</string>
+    <string name="reply_title">Theme</string>
+    <string name="about_title">Version</string>
     <string name="rb_male">Male</string>
     <string name="rb_female">Female</string>
-    <string name="note_card_urgent">*Hanya dapat di gunakan di beberapa kota</string>
+    <string name="note_card_urgent">*Can only be used on certain cities</string>
     <string name="exit">Press again to exit</string>
     <string name="retry">Retry</string>
+    <string name="location_fail">Failed to retrieve location.</string>
 </resources>

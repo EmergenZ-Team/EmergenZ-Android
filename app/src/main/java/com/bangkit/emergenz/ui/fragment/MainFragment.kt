@@ -148,7 +148,7 @@ class MainFragment : Fragment() {
                     this.location = location
                     callViewModel.setDataUrgent()
                 } else {
-                    Toast.makeText(activity, "Gagal mendapatkan lokasi.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, getString(R.string.location_fail), Toast.LENGTH_SHORT).show()
                 }
             }
         }
