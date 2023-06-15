@@ -43,7 +43,7 @@ class ContactFragment : Fragment(){
     private fun setToolbar(){
         val activity = requireActivity() as AppCompatActivity
         activity.supportActionBar?.show()
-        activity.supportActionBar?.title = "Kontak"
+        activity.supportActionBar?.title = getString(R.string.label_contact)
     }
 
     private fun setContact() {
