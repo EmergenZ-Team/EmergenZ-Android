@@ -5,7 +5,7 @@ EmergenZ is an application that aim to ease the user to call help in a dangerous
 
 ### Tools and Libraries
 - Made in Android Studio
-- Language Porgramming using Kotlin
+- Language Programming using Kotlin
 - [Retrofit](https://square.github.io/retrofit/) to establish connection with the APK
 - [Glide](https://bumptech.github.io/glide/) for retrieving image from URL
 
@@ -42,7 +42,7 @@ Here is our application's Screenshot
 </details>
 
 <details>
-  <summary>Demo other feature</summary>
+  <summary>Demo other features</summary>
 <p float="left">
   <img src="https://github.com/EmergenZ-Team/EmergenZ-Android/assets/93740880/5f3c2079-3e2d-4c51-b9be-0ef0e9d587e1" width="24%" />
   <img src="https://github.com/EmergenZ-Team/EmergenZ-Android/assets/93740880/9711e7b0-9428-49c7-9024-211abd7dfa18" width="24%" /> 
