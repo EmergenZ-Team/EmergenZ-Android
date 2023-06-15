@@ -89,7 +89,7 @@ class RegisterKtpFragment : Fragment() {
     }
 
     private fun setEmail(email: String?) {
-        binding.edEmail.setText(email ?: "ABSOLUTELY DOESN'T FUCKING WORK")
+        binding.edEmail.setText(email ?: "No Email")
     }
 
     @Deprecated("Deprecated in Java")
