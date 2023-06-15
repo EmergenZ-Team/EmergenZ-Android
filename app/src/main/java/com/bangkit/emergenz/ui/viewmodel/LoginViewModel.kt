@@ -33,14 +33,18 @@ class LoginViewModel(private val pref: UserPreferences) : ViewModel() {
                 if (response.isSuccessful){
                     val responseBody = response.body()
                     if (responseBody != null){
-                        val token = responseBody.data.token
-                        val username = responseBody.data.name
-                        _toast.value = responseBody.message
-                        ApiConfigCloud.setToken(token)
-                        saveToken(token)
-                        setUser(username, email)
-                        setSession(true)
-                        _isFinished.value = true
+                        if (!responseBody.error){
+                            val token = responseBody.data.token
+                            val username = responseBody.data.name
+                            _toast.value = responseBody.message
+                            ApiConfigCloud.setToken(token)
+                            saveToken(token)
+                            setUser(username, email)
+                            setSession(true)
+                            _isFinished.value = true
+                        }else{
+                            _toast.value = responseBody.message
+                        }
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()

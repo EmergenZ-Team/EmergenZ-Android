@@ -80,4 +80,10 @@
     <string name="exit">Press again to exit</string>
     <string name="retry">Retry</string>
     <string name="location_fail">Failed to retrieve location.</string>
+    <string name="full_name_empty">Fullname is empty!</string>
+    <string name="nik_empty">NIK is empty!</string>
+    <string name="province_empty">Province is empty!</string>
+    <string name="city_empty">City is empty!</string>
+    <string name="address_empty">Address is empty!</string>
+    <string name="detail_empty">Please fill your details!</string>
 </resources>

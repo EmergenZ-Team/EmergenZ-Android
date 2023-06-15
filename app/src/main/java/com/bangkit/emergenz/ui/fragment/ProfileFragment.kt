@@ -76,7 +76,7 @@ class ProfileFragment : Fragment() {
 
     fun onBackPressed() {
         if (profileViewModel.getError() == true) {
-            Toast.makeText(requireActivity(), "Mohon isi detail terlebih dahulu",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity(), getString(R.string.detail_empty),Toast.LENGTH_SHORT).show()
 
         }else{
             val intent = Intent(requireActivity(), MainActivity::class.java)
@@ -89,6 +89,7 @@ class ProfileFragment : Fragment() {
     private fun showDetailUser(detailUser: GetDetailResponse?) {
         if (detailUser != null){
             binding.apply {
+                btnIdRegister.visibility = View.GONE
                 tvFullName.text = detailUser.data?.name
                 tvNipFilled.text = detailUser.data?.nik
                 tvGenderFilled.text = detailUser.data?.gender
