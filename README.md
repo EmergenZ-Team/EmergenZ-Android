@@ -1,16 +1,7 @@
 # ![app icon](./app/src/main/res/mipmap-mdpi/ic_launcher_round.webp) EmergenZ-Android
-This repo aims to keep track our product based capstone project on Bangkit 2023.
+This repo aims to keep track of our product based capstone project on Bangkit 2023, especially on Android app.
 ## Description
 EmergenZ is an application made in Kotlin that aim to ease the user to call help in a dangerous situation such as traffic accident, wildfire and other situation
-### Our Team
-| ID          | Name                    | Role               |
-|-------------|-------------------------|--------------------|
-| M177DSY0412 | Faizah Mappanyompa      | Machine Learning   |
-| M355DSX2138 | Igor Thaddeus Sampoerna | Machine Learning   |
-| C172DSX4858 | Hanif Widi Prasetyo     | Cloud Computing    |
-| C177DSX0705 | Muhammad Azhar Tawakkal | Cloud Computing    |
-| A163DSX3038 | Gregorian Margono       | Mobile Development |
-| A274DSX1222 | Ahmad Ghoni Arrozaq     | Mobile Development |
 
 ### Tools and Libraries
 - Made in Android Studio
