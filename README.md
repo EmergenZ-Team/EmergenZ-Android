@@ -1,7 +1,7 @@
 # ![app icon](./app/src/main/res/mipmap-mdpi/ic_launcher_round.webp) EmergenZ-Android
 This repo aims to keep track of our product based capstone project on Bangkit 2023, especially on Android app.
 ## Description
-EmergenZ is an application made in Kotlin that aim to ease the user to call help in a dangerous situation such as traffic accident, wildfire and other situation
+EmergenZ is an application that aim to ease the user to call help in a dangerous situation such as traffic accident, wildfire and other situation. We made this app to be quick and easy to use to aid user when encounter such situation.
 
 ### Tools and Libraries
 - Made in Android Studio
