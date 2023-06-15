@@ -25,7 +25,7 @@
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_fire_truck"
+            tools:src="@drawable/ic_tab_fire"
             android:contentDescription="@string/icon_telp_card" />
 
         <TextView

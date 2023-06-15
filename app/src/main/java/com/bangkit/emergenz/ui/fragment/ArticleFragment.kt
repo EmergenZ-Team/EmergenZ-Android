@@ -69,6 +69,9 @@ class ArticleFragment : Fragment() {
         articleViewModel = ViewModelProvider(this, articleViewModelFactory)[ArticleViewModel::class.java]
         setToolbar()
         articleViewModel.fetchDataAndCache()
+        articleViewModel.isLoading.observe(viewLifecycleOwner){load ->
+            showLoading(load)
+        }
         setDataToFragment(email)
     }
 
@@ -87,9 +90,8 @@ class ArticleFragment : Fragment() {
         recyclerView.layoutManager = layoutManager
         articleViewModel.cachedData.observe(viewLifecycleOwner) { newData ->
             adapter.setData(newData)
-            showLoading(false)
         }
-        val itemDecoration = LastItemSpacingDecoration(250)
+        val itemDecoration = LastItemSpacingDecoration(290)
         recyclerView.addItemDecoration(itemDecoration)
     }
 
@@ -105,6 +107,8 @@ class ArticleFragment : Fragment() {
             }
         }
     }
+
+
 
     override fun onDestroy() {
         super.onDestroy()

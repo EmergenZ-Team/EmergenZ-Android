@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -37,6 +38,7 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setStatusBar()
         startup()
     }
 
@@ -77,6 +79,12 @@ class SplashScreen : AppCompatActivity() {
                 else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             }
         }
+    }
+
+    private fun setStatusBar(){
+        val statusBarColor = ContextCompat.getColor(this, R.color.ic_launcher_background)
+
+        window.statusBarColor = statusBarColor
     }
 
     private suspend fun getCurrentDarkModeValue(): String {
