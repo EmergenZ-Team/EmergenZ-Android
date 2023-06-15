@@ -6,7 +6,8 @@ EmergenZ is an application that aim to ease the user to call help in a dangerous
 ### Tools and Libraries
 - Made in Android Studio
 - Language Porgramming using Kotlin
-- Retrofit3 to establish connection with the APK
+- Retrofit to establish connection with the APK
+- Glide for retrieving image from URL
 
 ### Application Screenshot
 <details>
