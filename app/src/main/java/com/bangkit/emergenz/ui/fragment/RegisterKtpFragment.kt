@@ -126,7 +126,60 @@ class RegisterKtpFragment : Fragment() {
     }
 
     private fun uploadImage() {
-        if (getFile!= null){
+        var checkValid = true
+
+        when {
+            binding.edFullName.text.toString().isBlank()-> {
+                Toast.makeText(
+                    context,
+                    R.string.full_name_empty,
+                    Toast.LENGTH_SHORT
+                ).show()
+                checkValid = false
+            }
+            binding.edNik.text.toString().isBlank()-> {
+                Toast.makeText(
+                    context,
+                    R.string.nik_empty,
+                    Toast.LENGTH_SHORT
+                ).show()
+                checkValid = false
+            }
+
+            binding.edProvince.text.toString().isBlank() -> {
+                Toast.makeText(
+                    context,
+                    R.string.province_empty,
+                    Toast.LENGTH_SHORT
+                ).show()
+                checkValid = false
+            }
+
+            binding.edCity.text.toString().isBlank() -> {
+                Toast.makeText(
+                    context,
+                    R.string.city_empty,
+                    Toast.LENGTH_SHORT
+                ).show()
+                checkValid = false
+            }
+
+            binding.edAddress.text.toString().isBlank() -> {
+                Toast.makeText(
+                    context,
+                    R.string.address_empty,
+                    Toast.LENGTH_SHORT
+                ).show()
+                checkValid = false
+            }
+
+            getFile == null -> {
+                Toast.makeText(requireActivity(), getString(R.string.img_lack), Toast.LENGTH_SHORT).show()
+                checkValid = false
+            }
+        }
+
+        if (checkValid){
             val file = uploadDetailViewModel.reduceFileSize(getFile as File)
             val email = binding.edEmail.text.toString().toRequestBody("text/plain".toMediaType())
             val fullName = binding.edFullName.text.toString().toRequestBody("text/plain".toMediaType())
@@ -150,8 +203,6 @@ class RegisterKtpFragment : Fragment() {
                 requestImageFile,
             )
             uploadDetailViewModel.uploadStoryIntent(email, fullName, nik, gender, province, city, address, imageMultipart)
-        } else {
-            Toast.makeText(requireActivity(), getString(R.string.img_lack), Toast.LENGTH_SHORT).show()
         }
     }
 
