@@ -14,7 +14,6 @@
     <string name="message_alert">Are you sure you want to call this number?</string>
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
-    <string name="test_popup">Test Popup</string>
     <string name="logo_splashscreen">Splashscreen Logo</string>
     <string name="panic_button_desc">Panic Button</string>
     <string name="panic_button_label">Press 3 times to search the nearest emergency number</string>
@@ -79,5 +78,6 @@
     <string name="rb_female">Female</string>
     <string name="note_card_urgent">*Can only be used on certain cities</string>
     <string name="exit">Press again to exit</string>
+    <string name="retry">Retry</string>
     <string name="location_fail">Failed to retrieve location.</string>
 </resources>

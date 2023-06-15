@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -17,6 +19,7 @@ import com.bangkit.emergenz.data.local.datastore.UserPreferences
 import com.bangkit.emergenz.data.response.GetDetailResponse
 import com.bangkit.emergenz.databinding.FragmentProfileBinding
 import com.bangkit.emergenz.ui.activity.AuthActivity
+import com.bangkit.emergenz.ui.activity.MainActivity
 import com.bangkit.emergenz.ui.viewmodel.ProfileViewModel
 import com.bangkit.emergenz.ui.viewmodel.ViewModelFactory
 
@@ -39,6 +42,11 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().actionBar?.title = "Profile"
         requireActivity().actionBar?.setDisplayHomeAsUpEnabled(true)
+        val backPressCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                onBackPressed()
+            }
+        }
 
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         profileViewModel = ViewModelProvider(requireActivity(), ViewModelFactory(pref))[ProfileViewModel::class.java]
@@ -62,6 +70,19 @@ class ProfileFragment : Fragment() {
 
         binding.btnLogout.setOnClickListener{
             logout()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backPressCallback)
+    }
+
+    fun onBackPressed() {
+        if (profileViewModel.getError() == true) {
+            Toast.makeText(requireActivity(), "Mohon isi detail terlebih dahulu",Toast.LENGTH_SHORT).show()
+
+        }else{
+            val intent = Intent(requireActivity(), MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            requireActivity().finish()
         }
     }
 
@@ -122,5 +143,10 @@ class ProfileFragment : Fragment() {
         profileViewModel.setSession(false)
         startActivity(intent)
         requireActivity().finish()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
