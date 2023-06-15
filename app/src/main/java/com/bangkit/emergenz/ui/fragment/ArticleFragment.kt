@@ -12,6 +12,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.emergenz.R
 import com.bangkit.emergenz.adapter.ArticleAdapter
 import com.bangkit.emergenz.data.api.ApiConfigCloud
 import com.bangkit.emergenz.data.local.datastore.UserPreferences
@@ -78,7 +79,7 @@ class ArticleFragment : Fragment() {
     private fun setToolbar(){
         val activity = requireActivity() as AppCompatActivity
         activity.supportActionBar?.show()
-        activity.supportActionBar?.title = "Artikel"
+        activity.supportActionBar?.title = getString(R.string.label_article)
     }
 
     private fun setDataToFragment(email: String) {
