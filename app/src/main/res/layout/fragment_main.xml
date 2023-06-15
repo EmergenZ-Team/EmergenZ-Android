@@ -14,22 +14,6 @@
         android:layout_height="match_parent"
         android:background="@color/bg_overlay">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="60dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            android:visibility="gone"
-            android:background="@drawable/bg_color_circle"
-            app:layout_constraintBottom_toTopOf="@+id/btn_circle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="2" />
-
         <ImageView
             android:id="@+id/iv_profile"
             android:padding="16dp"
@@ -52,8 +36,10 @@
 
         <ImageButton
             android:id="@+id/btn_circle"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="H,1:1"
+            android:layout_margin="60dp"
             android:background="@drawable/bg_color_ripple"
             android:contentDescription="@string/panic_button_desc"
             android:src="@drawable/bg_ic_touch"
