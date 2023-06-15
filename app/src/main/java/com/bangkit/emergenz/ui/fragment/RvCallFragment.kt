@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -16,6 +17,7 @@ import com.bangkit.emergenz.databinding.FragmentRvCallBinding
 import com.bangkit.emergenz.ui.viewmodel.CallViewModel
 import com.bangkit.emergenz.ui.viewmodel.LocViewModel
 import com.bangkit.emergenz.ui.viewmodel.CallViewModelFactory
+import com.bangkit.emergenz.util.NetworkConnectivityChecker
 import com.bangkit.emergenz.util.animateVisibility
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -60,7 +62,7 @@ class RvCallFragment(var query: String) : Fragment() {
             delay(500)
             getPlaceDetail()
             delay(500)
-            setCombinedRecycleView()
+            checkConection()
             showLoading(false)
         }
     }
@@ -102,7 +104,7 @@ class RvCallFragment(var query: String) : Fragment() {
         }
     }
 
-    private fun setCombinedRecycleView(){
+    private fun setCombinedRecycleView(internet: Boolean){
         val recyclerView = binding.rvCall
         val layoutManager = LinearLayoutManager(requireContext())
         val adapter = CombinedAdapter(emptyList(), emptyList(), query, requireContext())
@@ -113,24 +115,30 @@ class RvCallFragment(var query: String) : Fragment() {
                 callViewModel.dataUrgentFire.observe(viewLifecycleOwner){urgentFire ->
                     adapter.setData1(urgentFire)
                 }
-                callViewModel.dataFire.observe(viewLifecycleOwner){fire ->
-                    adapter.setData2(fire)
+                if (internet){
+                    callViewModel.dataFire.observe(viewLifecycleOwner){fire ->
+                        adapter.setData2(fire)
+                    }
                 }
             }
             HOSPITAL -> {
                 callViewModel.dataUrgentHospital.observe(viewLifecycleOwner){urgentHospital ->
                     adapter.setData1(urgentHospital)
                 }
-                callViewModel.dataHospital.observe(viewLifecycleOwner){hospital ->
-                    adapter.setData2(hospital)
+                if (internet){
+                    callViewModel.dataHospital.observe(viewLifecycleOwner){hospital ->
+                        adapter.setData2(hospital)
+                    }
                 }
             }
             POLICE -> {
                 callViewModel.dataUrgentPolice.observe(viewLifecycleOwner){urgentPolice ->
                     adapter.setData1(urgentPolice)
                 }
-                callViewModel.dataPolice.observe(viewLifecycleOwner){police ->
-                    adapter.setData2(police)
+                if (internet){
+                    callViewModel.dataPolice.observe(viewLifecycleOwner){police ->
+                        adapter.setData2(police)
+                    }
                 }
             }
         }
@@ -157,6 +165,18 @@ class RvCallFragment(var query: String) : Fragment() {
             } else {
                 loadingBar3.animateVisibility(false)
             }
+        }
+    }
+
+    private fun checkConection(){
+        val networkUtils = NetworkConnectivityChecker(requireContext())
+        val isInternetAvailable = networkUtils.isInternetAvailable()
+
+        if (isInternetAvailable) {
+            setCombinedRecycleView(true)
+        } else {
+            setCombinedRecycleView(false)
+            Toast.makeText(requireContext(), "Sambungkan ke internet untuk hasil yang lebih lengkap", Toast.LENGTH_LONG).show()
         }
     }
 

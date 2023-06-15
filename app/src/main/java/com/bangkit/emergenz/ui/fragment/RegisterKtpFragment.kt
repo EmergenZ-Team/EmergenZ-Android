@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -19,6 +20,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.bangkit.emergenz.R
 import com.bangkit.emergenz.data.local.datastore.UserPreferences
 import com.bangkit.emergenz.databinding.FragmentRegisterKtpBinding
@@ -52,6 +54,12 @@ class RegisterKtpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val backPressCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                onBackPressed()
+            }
+        }
+
         if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(
                 requireActivity(),
@@ -86,12 +94,14 @@ class RegisterKtpFragment : Fragment() {
             btnCamera.setOnClickListener { startCameraX() }
             btnConfirm.setOnClickListener { uploadImage() }
         }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backPressCallback)
     }
 
     private fun setEmail(email: String?) {
         binding.edEmail.setText(email ?: "ABSOLUTELY DOESN'T FUCKING WORK")
     }
 
+    @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -150,6 +160,7 @@ class RegisterKtpFragment : Fragment() {
         launcherIntentCameraX.launch(intent)
     }
 
+    @Suppress("DEPRECATION")
     private val launcherIntentCameraX = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
@@ -180,6 +191,10 @@ class RegisterKtpFragment : Fragment() {
             binding.progressBar.visibility = View.GONE
             binding.btnConfirm.isEnabled = true
         }
+    }
+
+    fun onBackPressed() {
+        findNavController().popBackStack(R.id.profileFragment, false)
     }
 
     override fun onDestroy() {

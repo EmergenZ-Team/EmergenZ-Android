@@ -11,17 +11,21 @@ import com.bangkit.emergenz.data.response.call.Result
 import com.bangkit.emergenz.ui.fragment.RvCallFragment.Companion.FIRE
 import com.bangkit.emergenz.ui.fragment.RvCallFragment.Companion.HOSPITAL
 import com.bangkit.emergenz.ui.fragment.RvCallFragment.Companion.POLICE
+import com.bangkit.emergenz.util.ApiResult
 import com.bangkit.emergenz.util.LimitedSizeList
 import kotlinx.coroutines.launch
 
 class CallViewModel(private val callRepository: CallRepository) : ViewModel(){
 
-    private val uniquePlaceIdsF: LimitedSizeList<String> = LimitedSizeList(7)
+    private val uniquePlaceIdsF: LimitedSizeList<String> = LimitedSizeList(2)
     private val listPlaceIdsF: MutableLiveData<List<String>> = MutableLiveData()
-    private val uniquePlaceIdsP: LimitedSizeList<String> = LimitedSizeList(7)
+    private val uniquePlaceIdsP: LimitedSizeList<String> = LimitedSizeList(2)
     private val listPlaceIdsP: MutableLiveData<List<String>> = MutableLiveData()
-    private val uniquePlaceIdsH: LimitedSizeList<String> = LimitedSizeList(7)
+    private val uniquePlaceIdsH: LimitedSizeList<String> = LimitedSizeList(2)
     private val listPlaceIdsH: MutableLiveData<List<String>> = MutableLiveData()
+
+    private val _chckErr = MutableLiveData<Boolean>()
+    private val _txtErr = MutableLiveData<String>()
 
     init {
         listPlaceIdsF.value = uniquePlaceIdsF.toList()
@@ -100,90 +104,113 @@ class CallViewModel(private val callRepository: CallRepository) : ViewModel(){
 
     fun getPlaceId(query: String, locationbias: String) {
         viewModelScope.launch {
-            val response = callRepository.fetchPlaceId(query, locationbias)
-            if (response.isSuccessful) {
-                val placesResponse = response.body()
-                val results = placesResponse?.candidates
-                if (results != null) {
-                    for (place in results) {
-                        if (place != null) {
-                            when (query) {
-                                POLICE -> (
-                                        addPlaceIdP(place.placeId!!)
-                                        )
-                                FIRE -> (
-                                        addPlaceIdF(place.placeId!!)
-                                        )
-                                HOSPITAL -> (
-                                        addPlaceIdH(place.placeId!!)
-                                        )
+            try {
+                val response = callRepository.fetchPlaceId(query, locationbias)
+                if (response.isSuccessful) {
+                    _chckErr.value = false
+                    val placesResponse = response.body()
+                    val results = placesResponse?.candidates
+                    if (results != null) {
+                        for (place in results) {
+                            if (place != null) {
+                                when (query) {
+                                    POLICE -> (
+                                            addPlaceIdP(place.placeId!!)
+                                            )
+                                    FIRE -> (
+                                            addPlaceIdF(place.placeId!!)
+                                            )
+                                    HOSPITAL -> (
+                                            addPlaceIdH(place.placeId!!)
+                                            )
+                                }
                             }
                         }
                     }
+                } else {
+                    _chckErr.value = true
+                    _txtErr.value = ApiResult.Error("Error:${response.code()}").toString()
                 }
-            } else {
-                // Handle the error
+            }catch (e:Exception){
+                _chckErr.value = true
+                _txtErr.value = ApiResult.Error(e.message.toString()).toString()
             }
         }
     }
 
     fun getPlaceDetail(query: String, placeId: String) {
         viewModelScope.launch {
-            val response = callRepository.fetchPlaceDetailsAndSave(placeId)
-            if (response.isSuccessful) {
-                val placeDetails = response.body()?.result
-                placeDetails?.let {
-                    if (placeDetails.formattedPhoneNumber != null){
-                        val place = Result(
-                            placeDetails.name,
-                            placeDetails.place_id,
-                            placeDetails.formattedPhoneNumber
-                        )
-                        when (query) {
-                            POLICE -> (
-                                    setDataPolice(place)
-                                    )
-                            FIRE -> (
-                                    setDataFire(place)
-                                    )
-                            HOSPITAL -> (
-                                    setDataHospital(place)
-                                    )
+            try {
+                val response = callRepository.fetchPlaceDetailsAndSave(placeId)
+                if (response.isSuccessful) {
+                    _chckErr.value = false
+                    val placeDetails = response.body()?.result
+                    placeDetails?.let {
+                        if (placeDetails.formattedPhoneNumber != null){
+                            val place = Result(
+                                placeDetails.name,
+                                placeDetails.place_id,
+                                placeDetails.formattedPhoneNumber
+                            )
+                            when (query) {
+                                POLICE -> (
+                                        setDataPolice(place)
+                                        )
+                                FIRE -> (
+                                        setDataFire(place)
+                                        )
+                                HOSPITAL -> (
+                                        setDataHospital(place)
+                                        )
+                            }
                         }
                     }
+                } else {
+                    _chckErr.value = true
+                    _txtErr.value = ApiResult.Error("Error:${response.code()}").toString()
                 }
-            } else {
-                // Handle the API error
+            }catch (e:Exception){
+                _chckErr.value = true
+                _txtErr.value = ApiResult.Error(e.message.toString()).toString()
             }
+
         }
     }
 
     fun getSearchText(location: String, query: String) {
         viewModelScope.launch {
-            val response = callRepository.fetchSearchText(location, query)
-            if (response.isSuccessful) {
-                val searchResponse = response.body()
-                val results = searchResponse?.results
-                if (results != null) {
-                    for (place in results) {
-                        if (place != null) {
-                            when (query) {
-                                POLICE -> (
-                                        addPlaceIdP(place.placeId!!)
-                                        )
-                                FIRE -> (
-                                        addPlaceIdF(place.placeId!!)
-                                        )
-                                HOSPITAL -> (
-                                        addPlaceIdH(place.placeId!!)
-                                        )
+            try {
+                val response = callRepository.fetchSearchText(location, query)
+                if (response.isSuccessful) {
+                    _chckErr.value = false
+                    val searchResponse = response.body()
+                    val results = searchResponse?.results
+                    if (results != null) {
+                        for (place in results) {
+                            if (place != null) {
+                                when (query) {
+                                    POLICE -> (
+                                            addPlaceIdP(place.placeId!!)
+                                            )
+                                    FIRE -> (
+                                            addPlaceIdF(place.placeId!!)
+                                            )
+                                    HOSPITAL -> (
+                                            addPlaceIdH(place.placeId!!)
+                                            )
+                                }
                             }
                         }
                     }
+                } else {
+                    _chckErr.value = true
+                    _txtErr.value = ApiResult.Error("Error:${response.code()}").toString()
                 }
-            } else {
-                // Handle the error
+            }catch (e:Exception){
+                _chckErr.value = true
+                _txtErr.value = ApiResult.Error(e.message.toString()).toString()
             }
+
         }
     }
 }
