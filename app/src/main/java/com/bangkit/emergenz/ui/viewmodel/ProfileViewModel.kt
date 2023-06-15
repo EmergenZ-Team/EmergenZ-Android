@@ -24,6 +24,9 @@ class ProfileViewModel(private val pref: UserPreferences) : ViewModel() {
     private val _toast = MutableLiveData<String>()
     val toast: LiveData<String> = _toast
 
+    private val _chckErr = MutableLiveData<Boolean>()
+    val chckErr: LiveData<Boolean> = _chckErr
+
     private fun getDetail(q: String) {
         _isLoading.value = true
         val client = ApiConfigCloud.getApiService().getDetailUser(q)
@@ -34,6 +37,7 @@ class ProfileViewModel(private val pref: UserPreferences) : ViewModel() {
             ) {
                 _isLoading.value = false
                 if (response.isSuccessful){
+                    _chckErr.value = false
                     val responseBody = response.body()
                     if (responseBody != null){
                         _detailUser.value = responseBody
@@ -42,6 +46,7 @@ class ProfileViewModel(private val pref: UserPreferences) : ViewModel() {
                     val errorBody = response.errorBody()?.string()
                     val errorMessage = extractErrorMessageFromJson(errorBody)
                     _toast.value = errorMessage
+                    _chckErr.value = true
                 }
             }
 
@@ -68,5 +73,9 @@ class ProfileViewModel(private val pref: UserPreferences) : ViewModel() {
     }
     fun getDetailIntent(q : String){
         getDetail(q)
+    }
+
+    fun getError(): Boolean? {
+        return chckErr.value
     }
 }

@@ -11,7 +11,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bangkit.emergenz.R
 import com.bangkit.emergenz.adapter.ArticleAdapter
 import com.bangkit.emergenz.data.api.ApiConfigCloud
@@ -35,6 +37,7 @@ class ArticleFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var articleViewModel: ArticleViewModel
     private lateinit var profileViewModel : ProfileViewModel
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreateView(
@@ -48,16 +51,17 @@ class ArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showLoading(true)
+        setToolbar()
         val pref = UserPreferences.getInstance(requireContext().dataStore)
         var valueEmail =""
         profileViewModel = ViewModelProvider(requireActivity(), ViewModelFactory(pref))[ProfileViewModel::class.java]
-
         profileViewModel.getEmail().observe(viewLifecycleOwner){email ->
             valueEmail = email
         }
         coroutineScope.launch {
             delay(500)
             getArticle(valueEmail)
+            swipeUpLayout()
         }
 
     }
@@ -68,7 +72,9 @@ class ArticleFragment : Fragment() {
         val articleViewModelFactory = ArticleViewModelFactory(articleRepository)
 
         articleViewModel = ViewModelProvider(this, articleViewModelFactory)[ArticleViewModel::class.java]
-        setToolbar()
+        articleViewModel.chckErr.observe(viewLifecycleOwner){check->
+            loadError(check)
+        }
         articleViewModel.fetchDataAndCache()
         articleViewModel.isLoading.observe(viewLifecycleOwner){load ->
             showLoading(load)
@@ -109,7 +115,41 @@ class ArticleFragment : Fragment() {
         }
     }
 
+    private fun loadError(error: Boolean){
+        if (error){
+            articleViewModel.txtErr.observe(viewLifecycleOwner){txtErr->
+                val reTxt = Regex("=([^\"\\\\)]+)")
+                val matchResult = reTxt.find(txtErr)
+                val result = matchResult?.groupValues?.get(1)?.trim()
+                binding.errorMsg.text = result
+            }
+            binding.layoutError.visibility = View.VISIBLE
+            binding.retryButton.setOnClickListener {
+                lifecycleScope.launch {
+                    binding.layoutError.visibility = View.GONE
+                    showLoading(true)
+                    delay(1000)
+                    articleViewModel.retryButton()
+                }
+            }
+        }else{
+            binding.layoutError.visibility = View.GONE
+        }
 
+    }
+
+    private fun swipeUpLayout(){
+        swipeRefreshLayout = binding.swipeRefreshLayout
+        swipeRefreshLayout.setOnRefreshListener {
+            lifecycleScope.launch {
+                binding.layoutError.visibility = View.GONE
+                showLoading(true)
+                delay(1000)
+                articleViewModel.retryButton()
+                swipeRefreshLayout.isRefreshing = false
+            }
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()

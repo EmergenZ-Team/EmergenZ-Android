@@ -6,13 +6,29 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_maps"
     tools:context=".ui.fragment.MainFragment"
-    android:id="@+id/bg_maps">
+    android:id="@+id/bg_maps_layout">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bg_transparent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_overlay">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="60dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:visibility="gone"
+            android:background="@drawable/bg_color_circle"
+            app:layout_constraintBottom_toTopOf="@+id/btn_circle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="2" />
 
         <ImageView
             android:id="@+id/iv_profile"

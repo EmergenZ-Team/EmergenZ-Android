@@ -1,16 +1,27 @@
 package com.bangkit.emergenz.ui.activity
 
 import android.Manifest
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.bangkit.emergenz.R
+import com.bangkit.emergenz.data.local.datastore.UserPreferences
 import com.bangkit.emergenz.databinding.ActivityMainBinding
+import com.bangkit.emergenz.ui.viewmodel.ProfileViewModel
+import com.bangkit.emergenz.ui.viewmodel.ViewModelFactory
+
+private val Context.dataStore2: DataStore<Preferences> by preferencesDataStore(name = "token")
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,16 +29,37 @@ class MainActivity : AppCompatActivity() {
     private val binding get() = _binding!!
 
     private lateinit var navController: NavController
+    private lateinit var profileViewModel: ProfileViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val pref = UserPreferences.getInstance(dataStore2)
+        profileViewModel =
+            ViewModelProvider(this, ViewModelFactory(pref))[ProfileViewModel::class.java]
+
+        profileViewModel.getEmail().observe(this){email ->
+            profileViewModel.getDetailIntent(email)
+            checkValid()
+        }
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         navController = navHostFragment.navController
 
         setBottomNavigation()
+    }
+
+    private fun checkValid() {
+        profileViewModel.chckErr.observe(this){query->
+            if (query){
+                val intent = Intent(this, ProfileActivity::class.java)
+                startActivity(intent)
+            }
+
+        }
     }
 
     private fun setBottomNavigation() {
@@ -37,6 +69,7 @@ class MainActivity : AppCompatActivity() {
                     navController.popBackStack(R.id.mainFragment, false)
                     true
                 }
+
                 R.id.action_contact -> {
                     if (!allPermissionsGranted()) {
                         ActivityCompat.requestPermissions(
@@ -50,15 +83,19 @@ class MainActivity : AppCompatActivity() {
                     }
                     true
                 }
+
                 R.id.action_article -> {
                     navController.navigate(R.id.articleFragment)
                     true
                 }
+
                 else -> false
             }
         }
     }
 
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         val currentDestination = navController.currentDestination?.id
         val homeFragmentId = R.id.mainFragment
@@ -93,7 +130,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE)
+        private val REQUIRED_PERMISSIONS =
+            arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE)
         private const val REQUEST_CODE_PERMISSIONS = 10
     }
 }

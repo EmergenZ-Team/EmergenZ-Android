@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.bangkit.emergenz.data.repository.ArticleRepository
 import com.bangkit.emergenz.data.response.article.DataRecom
 import com.bangkit.emergenz.data.response.article.DataRecord
+import com.bangkit.emergenz.util.ApiResult
 import kotlinx.coroutines.launch
 
 class ArticleViewModel(private val articleRepository: ArticleRepository) : ViewModel() {
@@ -20,17 +21,29 @@ class ArticleViewModel(private val articleRepository: ArticleRepository) : ViewM
     private val _detailData = MutableLiveData<DataRecord>()
     val detailData: MutableLiveData<DataRecord> = _detailData
 
+    private val _chckErr = MutableLiveData<Boolean>()
+    val chckErr: LiveData<Boolean> = _chckErr
+    private val _txtErr = MutableLiveData<String>()
+    val txtErr: LiveData<String> = _txtErr
+
     private fun addPlaceId(articleId: DataRecom) {
         if (_cachedData.add(articleId)) {
             cachedData.value = _cachedData.toList()
         }
     }
 
+    fun retryButton(){
+        _cachedData.clear()
+        _isLoading.value = true
+        return fetchDataAndCache()
+    }
+
     fun fetchDataAndCache() {
         viewModelScope.launch {
-            viewModelScope.launch {
+            try {
                 val response = articleRepository.fetchDataAndCache()
                 if (response.isSuccessful) {
+                    _chckErr.value = false
                     _isLoading.value = false
                     val articleResponse = response.body()
                     val results = articleResponse?.data
@@ -41,16 +54,23 @@ class ArticleViewModel(private val articleRepository: ArticleRepository) : ViewM
                     }
                 } else {
                     _isLoading.value = false
+                    _chckErr.value = true
+                    _txtErr.value = ApiResult.Error("Error:${response.code()}").toString()
                 }
+            }catch (e:Exception){
+                _isLoading.value = false
+                _chckErr.value = true
+                _txtErr.value = ApiResult.Error(e.message.toString()).toString()
             }
         }
     }
 
     fun fetchDetail(news_id: String) {
         viewModelScope.launch {
-            viewModelScope.launch {
+            try {
                 val response = articleRepository.fetchDetail(news_id)
                 if (response.isSuccessful) {
+                    _chckErr.value = false
                     _isLoading.value = false
                     val articleResponse = response.body()
                     val results = articleResponse?.data
@@ -61,7 +81,13 @@ class ArticleViewModel(private val articleRepository: ArticleRepository) : ViewM
                     }
                 } else {
                     _isLoading.value = false
+                    _chckErr.value = true
+                    _txtErr.value = ApiResult.Error("Error:${response.code()}").toString()
                 }
+            }catch (e:Exception){
+                _isLoading.value = false
+                _chckErr.value = true
+                _txtErr.value = ApiResult.Error(e.message.toString()).toString()
             }
         }
     }

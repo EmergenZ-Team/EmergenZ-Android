@@ -109,7 +109,7 @@ class MainFragment : Fragment() {
             when {
                 clickCount == 1 -> {
                     doubleClickHandler = Handler(Looper.getMainLooper())
-                    doubleClickHandler?.postDelayed(doubleClickRunnable, 1000)
+                    doubleClickHandler?.postDelayed(doubleClickRunnable, 2000)
                 }
                 clickCount == 3 -> {
                     coroutineScope.launch {
