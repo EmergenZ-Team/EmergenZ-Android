@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.map
 
 class UserPreferences private constructor(private val dataStore: DataStore<Preferences>) {
 
-
     fun getToken(): Flow<String> {
         return dataStore.data.map { preferences ->
             preferences[TOKEN_KEY] ?: ""
@@ -26,6 +25,12 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
     fun getEmail(): Flow<String> {
         return dataStore.data.map { preferences ->
             preferences[EMAIL] ?: ""
+        }
+    }
+
+    fun getName(): Flow<String> {
+        return dataStore.data.map { preferences ->
+            preferences[NAME] ?: ""
         }
     }
 
@@ -53,11 +58,18 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
         }
     }
 
+    suspend fun saveName(Name: String) {
+        dataStore.edit { preferences ->
+            preferences[NAME] = Name
+        }
+    }
+
     companion object {
         private val TOKEN_KEY = stringPreferencesKey("bearer_token")
         private val SESSION_STATE = booleanPreferencesKey("on_session")
         private val USERNAME = stringPreferencesKey("username")
         private val EMAIL = stringPreferencesKey("email")
+        private val NAME = stringPreferencesKey("name")
 
         @Volatile
         private var INSTANCE: UserPreferences? = null

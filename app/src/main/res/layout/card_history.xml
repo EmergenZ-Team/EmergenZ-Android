@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="4dp"
+    card_view:cardCornerRadius="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/iv_user_photo3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/label_history"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_person"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_name_place3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/iv_user_photo3"
+            android:maxLines="1"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            card_view:layout_constraintEnd_toStartOf="@+id/iv_call3"
+            card_view:layout_constraintStart_toEndOf="@+id/iv_user_photo3"
+            card_view:layout_constraintTop_toTopOf="@+id/iv_user_photo3"
+            tools:text="Pemadam Kebakaran Surabaya" />
+
+        <ImageView
+            android:id="@+id/iv_call_made"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/label_call"
+            android:src="@drawable/ic_call_made"
+            card_view:layout_constraintStart_toEndOf="@+id/iv_user_photo3"
+            card_view:layout_constraintTop_toBottomOf="@+id/tv_name_place3" />
+
+        <TextView
+            android:id="@+id/tv_number_phone3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="12sp"
+            card_view:layout_constraintStart_toEndOf="@+id/iv_call_made"
+            card_view:layout_constraintTop_toBottomOf="@+id/tv_name_place3"
+            tools:text="(031) 144047" />
+
+        <TextView
+            android:id="@+id/tv_time_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="12sp"
+            card_view:layout_constraintStart_toEndOf="@+id/tv_number_phone3"
+            card_view:layout_constraintTop_toBottomOf="@+id/tv_name_place3"
+            tools:text="9 Jul 2023 20.01" />
+
+        <ImageView
+            android:id="@+id/iv_call3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/icon_call"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_call"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
