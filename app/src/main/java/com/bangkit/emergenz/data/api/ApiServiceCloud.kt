@@ -6,6 +6,8 @@ import com.bangkit.emergenz.data.response.RegisterDetailResponse
 import com.bangkit.emergenz.data.response.RegisterResponse
 import com.bangkit.emergenz.data.response.article.AddRecordResponse
 import com.bangkit.emergenz.data.response.article.RecomNewsResponse
+import com.bangkit.emergenz.data.response.history.GetHistoryResponse
+import com.bangkit.emergenz.data.response.history.SaveHistoryResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -63,4 +65,19 @@ interface ApiServiceCloud {
         @Path("news_id") news_id : String,
         @Field("email") email: String
     ) : Response<AddRecordResponse>
+
+    @FormUrlEncoded
+    @POST("calls")
+    suspend fun saveHistory(
+        @Field("name") name : String,
+        @Field("instancename") instancename : String,
+        @Field("phonenumber") phonenumber : String,
+        @Field("time") time : String,
+        @Field("date") date : String
+    ) : Response<SaveHistoryResponse>
+
+    @GET("calls/{name}")
+    suspend fun getHistory(
+        @Path("name") name : String
+    ) : Response<GetHistoryResponse>
 }

@@ -89,6 +89,11 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
+                R.id.action_history -> {
+                    navController.navigate(R.id.historyFragment)
+                    true
+                }
+
                 else -> false
             }
         }
