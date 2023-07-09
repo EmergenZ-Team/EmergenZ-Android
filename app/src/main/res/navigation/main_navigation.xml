@@ -21,4 +21,9 @@
         android:name="com.bangkit.emergenz.ui.fragment.ArticleFragment"
         android:label="fragment_article"
         tools:layout="@layout/fragment_article" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.bangkit.emergenz.ui.fragment.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" />
 </navigation>

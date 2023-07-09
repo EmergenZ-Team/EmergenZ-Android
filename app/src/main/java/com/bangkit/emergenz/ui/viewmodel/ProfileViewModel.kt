@@ -41,6 +41,8 @@ class ProfileViewModel(private val pref: UserPreferences) : ViewModel() {
                     val responseBody = response.body()
                     if (responseBody != null){
                         _detailUser.value = responseBody
+                        val name = responseBody.data?.name
+                        saveName(name!!)
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
@@ -59,6 +61,12 @@ class ProfileViewModel(private val pref: UserPreferences) : ViewModel() {
     fun saveToken(Token: String) {
         viewModelScope.launch {
             pref.saveToken(Token)
+        }
+    }
+
+    fun saveName(Name: String) {
+        viewModelScope.launch {
+            pref.saveName(Name)
         }
     }
 

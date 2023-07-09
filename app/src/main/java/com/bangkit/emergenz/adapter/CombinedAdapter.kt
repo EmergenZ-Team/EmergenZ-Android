@@ -23,12 +23,15 @@ import com.bangkit.emergenz.data.response.call.Result
 import com.bangkit.emergenz.ui.fragment.RvCallFragment.Companion.FIRE
 import com.bangkit.emergenz.ui.fragment.RvCallFragment.Companion.HOSPITAL
 import com.bangkit.emergenz.ui.fragment.RvCallFragment.Companion.POLICE
+import com.bangkit.emergenz.ui.viewmodel.HistoryViewModel
 
 class CombinedAdapter(
     private var dataFromRecyclerView1: List<CallUrgent>,
     private var dataList2: List<Result>,
     private val query: String,
-    private val context: Context
+    private val context: Context,
+    private val viewModel: HistoryViewModel,
+    private val name: String
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -84,7 +87,7 @@ class CombinedAdapter(
             textViewNumber.text = data.formattedPhoneNumber
 
             imageViewCall.setOnClickListener {
-                setCustomDialogBox(data.formattedPhoneNumber!!.toString(), context)
+                setCustomDialogBox(data.name!!.toString(), data.formattedPhoneNumber!!.toString(), context)
             }
         }
     }
@@ -109,12 +112,12 @@ class CombinedAdapter(
                         )
             }
             imageViewCall.setOnClickListener {
-                setCustomDialogBox(data.formattedPhoneNumber!!.toString(), context)
+                setCustomDialogBox(data.name!!.toString() ,data.formattedPhoneNumber!!.toString(), context)
             }
         }
     }
 
-    private fun setCustomDialogBox(phoneNumber: String, context: Context) {
+    private fun setCustomDialogBox(instancename: String ,phoneNumber: String, context: Context) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -127,6 +130,7 @@ class CombinedAdapter(
         btnYes.setOnClickListener {
             makeCall(phoneNumber, context)
             dialog.dismiss()
+            viewModel.saveHistory(name, instancename, phoneNumber)
         }
         btnNo.setOnClickListener {
             dialog.dismiss()
