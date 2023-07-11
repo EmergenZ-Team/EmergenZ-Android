@@ -87,4 +87,5 @@
     <string name="address_empty">Address is empty!</string>
     <string name="detail_empty">Please fill your details!</string>
     <string name="label_history">History</string>
+    <string name="history_not_found">History not found.</string>
 </resources>

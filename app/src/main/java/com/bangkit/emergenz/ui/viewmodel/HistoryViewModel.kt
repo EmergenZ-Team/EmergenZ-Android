@@ -13,7 +13,6 @@ import com.bangkit.emergenz.data.response.history.GetHistoryResponse
 import com.bangkit.emergenz.util.ApiResult
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -25,6 +24,8 @@ class HistoryViewModel(
 
     private val _txtErr = MutableLiveData<String?>()
     val txtErr: LiveData<String?> = _txtErr
+    private val _chckErr = MutableLiveData<Boolean>()
+    val chckErr: LiveData<Boolean> = _chckErr
     private val _listHistory: MutableSet<DataItem> = mutableSetOf()
     val listHistory: MutableLiveData<List<DataItem>> = MutableLiveData()
 
@@ -38,8 +39,8 @@ class HistoryViewModel(
         viewModelScope.launch {
             val currentDate = Date()
             val locale = Locale("id", "ID")
-            val timeFormat = DateFormat.getTimeInstance(DateFormat.DEFAULT, locale)
-            val dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.MEDIUM, locale)
+            val timeFormat = SimpleDateFormat("HH:mm", locale)
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy", locale)
 
             val date = dateFormat.format(currentDate)
             val time = timeFormat.format(currentDate)
@@ -66,6 +67,7 @@ class HistoryViewModel(
             try {
                 val response = historyRepository.fetchHistory(name)
                 if (response.isSuccessful){
+                    _chckErr.value = false
                     val getResponse = response.body()
                     val results = getResponse?.data
                     if (results != null) {
@@ -75,7 +77,7 @@ class HistoryViewModel(
                                 val jsonResponse = gson.toJson(getResponse)
                                 val responseSort = gson.fromJson(jsonResponse, GetHistoryResponse::class.java)
                                 val data = responseSort.data
-                                val sortedData = data?.sortedByDescending { it?.time + it?.date }
+                                val sortedData = data?.sortedByDescending { getDateAndTime(it!!) }
                                 if (sortedData != null) {
                                     for (item in sortedData) {
                                         if (item != null) {
@@ -87,9 +89,11 @@ class HistoryViewModel(
                         }
                     }
                 }else {
+                    _chckErr.value = true
                     _txtErr.value = ApiResult.Error("Error:${response.code()}").toString()
                 }
             }catch (e: Exception) {
+                _chckErr.value = true
                 _txtErr.value = ApiResult.Error(e.message.toString()).toString()
             }
         }
@@ -97,6 +101,12 @@ class HistoryViewModel(
 
     fun getName(): LiveData<String> {
         return pref.getName().asLiveData()
+    }
+
+    private fun getDateAndTime(data: DataItem): Date {
+        val dateTimeString = "${data.date} ${data.time}"
+        val format = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale("id", "ID"))
+        return format.parse(dateTimeString.replace(".", ":")) ?: Date()
     }
 }
 
