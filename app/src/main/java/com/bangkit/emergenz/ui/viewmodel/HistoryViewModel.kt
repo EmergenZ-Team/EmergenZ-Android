@@ -41,7 +41,6 @@ class HistoryViewModel(
             val locale = Locale("id", "ID")
             val timeFormat = SimpleDateFormat("HH:mm", locale)
             val dateFormat = SimpleDateFormat("dd-MM-yyyy", locale)
-
             val date = dateFormat.format(currentDate)
             val time = timeFormat.format(currentDate)
 

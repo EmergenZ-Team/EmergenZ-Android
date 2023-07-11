@@ -91,6 +91,7 @@ class HistoryFragment : Fragment() {
         }
     }
 
+
     private fun showLoading(isLoading: Boolean) {
         binding.apply {
             // Animate views alpha
@@ -108,7 +109,7 @@ class HistoryFragment : Fragment() {
         }else{
             binding.tvNotFound.visibility = View.GONE
         }
-
     }
+
 
 }
